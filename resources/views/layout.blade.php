@@ -17,6 +17,7 @@
         <!-- Vendor CSS -->
         <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.css" />
         <link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <link rel="stylesheet" href="/assets/vendor/magnific-popup/magnific-popup.css" />
         <link rel="stylesheet" href="/assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 

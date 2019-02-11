@@ -40,6 +40,25 @@
                             </li>
                         </ul>
                     </li>
+
+                    <li class="nav-parent @if(substr($actualLink, 0, strlen(route('trailers'))) == route('trailers'))) nav-expanded @endif">
+                        <a>
+                            <i class="fa fa-truck-loading" aria-hidden="true"></i>
+                            <span>Trailers</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li class="@if(route('trailers') == $actualLink) nav-active @endif">
+                                <a href="{{ route('trailers') }}">
+                                    All trailers
+                                </a>
+                            </li>
+                            <li class="@if(route('addTrailer') == $actualLink) nav-active @endif">
+                                <a href="{{ route('addTrailer') }}">
+                                    Add trailer
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-parent">
                         <a>
                             <i class="fa fa-file" aria-hidden="true"></i>

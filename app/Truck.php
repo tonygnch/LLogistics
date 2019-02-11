@@ -19,6 +19,18 @@ class Truck extends Model
     ];
 
     /**
+     * Get trailer
+     * @return Trailer
+     */
+    public function trailer(){
+        if($this->trailer) {
+            return Trailer::find($this->trailer);
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Delete truck
      * @return bool|null|void
      */

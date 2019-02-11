@@ -40,6 +40,29 @@ Route::get('trucks/delete/{id}',[
     'uses' => 'TruckController@delete'
 ]);
 
+//Trailers
+Route::get('trailers',[
+    'as' => 'trailers',
+    'uses' => 'TrailerController@index'
+]);
+
+Route::get('trailers/add',[
+    'as' => 'addTrailer',
+    'uses' => 'TrailerController@add'
+]);
+Route::post('trailers/add', 'TrailerController@add');
+
+Route::get('trailers/modify/{id}',[
+    'as' => 'modifyTrailer',
+    'uses' => 'TrailerController@modify'
+]);
+Route::post('trailers/modify/{id}', 'TrailerController@modify');
+
+Route::get('trailers/delete/{id}',[
+    'as' => 'deleteTrailer',
+    'uses' => 'TrailerController@delete'
+]);
+
 //Login
 Route::get('login', [
     'as' => 'login',

@@ -18,7 +18,6 @@
                             <tr>
                                 <th>Plate</th>
                                 <th>Make and model</th>
-                                <th>Trailer</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -27,10 +26,9 @@
                                 <tr>
                                     <td>{{ $d->plate }}</td>
                                     <td>{{ $d->make }} {{ $d->model }}</td>
-                                    <td>@if($d->trailer) {{ $d->trailer()->plate }} - {{ $d->trailer()->make }} @else - @endif</td>
                                     <td class="actions">
-                                        <a href="{{ route('modifyTruck', $d->id) }}"><i class="fa fa-pencil-alt fa-2x" style="color: orange;"></i></a>
-                                        <a href="{{ route('deleteTruck', $d->id) }}" class="delete-row"><i class="fa fa-trash-alt fa-2x" style="color: #ed180e;"></i></a>
+                                        <a href="{{ route('modifyTrailer', $d->id) }}"><i class="fa fa-pencil-alt fa-2x" style="color: orange;"></i></a>
+                                        <a href="{{ route('deleteTrailer', $d->id) }}" class="delete-row"><i class="fa fa-trash-alt fa-2x" style="color: #ed180e;"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

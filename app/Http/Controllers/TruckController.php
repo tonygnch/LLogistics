@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Trailer;
 use App\Truck;
 use Illuminate\Http\Request;
 
@@ -41,6 +42,11 @@ class TruckController extends Controller
             unset($data['_token']);
             unset($data['multiselect']);
 
+            if($data['trailer'] == 0) {
+                $data['trailer'] = null;
+            }
+
+
             $truck = new Truck();
 
             foreach($data as $property => $value) {
@@ -48,16 +54,19 @@ class TruckController extends Controller
             }
 
             $truck->save();
+            Trailer::takeTrailer($data['trailer']);
 
             return redirect(route('trucks'));
         } else {
             $trucksModel = new Truck();
-            $makes = $this->constants['makes'];
+            $makes = $this->constants['trucks']['makes'];
+            $trailers = Trailer::all()->where('deleted', '=', 0);
 
             return view($this->viewPath . 'add', [
                 'title' => 'Add Truck',
                 'description' => 'Add new truck',
                 'makes' => $makes,
+                'trailers' => $trailers,
                 'data' => $trucksModel->getFillable()
             ]);
         }
@@ -77,16 +86,28 @@ class TruckController extends Controller
         if($request->isMethod('POST')){
             $data = $request->post();
             unset($data['_token']);
+            unset($data['multiselect']);
+
+            if($data['trailer'] == 0) {
+                $data['trailer'] = null;
+                if($truck->trailer) Trailer::releaseTrailer($truck->trailer);
+            } else {
+                Trailer::takeTrailer($data['trailer']);
+            }
 
             $truck->update($data);
 
             return redirect(route('trucks'));
         } else {
+            $makes = $this->constants['trucks']['makes'];
+            $trailers = Trailer::all()->where('deleted', '=', 0)->where('taken', '=', 0);
 
             if(!empty($truck)){
                 return view($this->viewPath . 'modify', [
                     'title' => 'Modify truck',
                     'description' => 'Modify truck model ' . $truck->make . ' ' . $truck->model,
+                    'makes' => $makes,
+                    'trailers' => $trailers,
                     'data' => $truck
                 ]);
             } else {

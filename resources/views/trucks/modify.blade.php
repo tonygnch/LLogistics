@@ -3,7 +3,6 @@
     <div class="row">
         <div class="col-md-6">
             <form class="form-horizontal" action="{{ route('modifyTruck', $data->id) }}" method="post" enctype="multipart/form-data">
-                @csrf
                 <section class="panel">
                     <header class="panel-heading">
                         <div class="panel-actions">
@@ -26,7 +25,11 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Make: </label>
                             <div class="col-sm-8">
-                                <input placeholder="Make" type="text" name="make" class="form-control" value="{{ $data->make }}" required>
+                                <select class="form-control" data-plugin-multiselect name="make" required>
+                                    @foreach($makes as $make)
+                                        <option value="{{ $make }}" @if($data->make == $make) selected @endif >{{ $make }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -38,7 +41,13 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Trailer: </label>
                             <div class="col-sm-8">
-                                <input placeholder="Trailer" type="text" name="trailer" value="{{ $data->trailer }}" class="form-control">
+                                <select class="form-control" data-plugin-multiselect name="trailer">
+                                    <option value="0">No Trailer</option>
+                                    @if($data->trailer) <option value="{{ $data->trailer()->id }}" selected>{{ $data->trailer()->plate }} - {{ $data->trailer()->make }}</option> @endif
+                                    @foreach($trailers as $trailer)
+                                        <option value="{{ $trailer->id }}" @if($data->trailer == $trailer->id) selected @endif>{{ $trailer->plate }} - {{ $trailer->make }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
