@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-var_dump('test');
-exit;
-
 Route::get('/welcome', function () {
     return view('welcome');
 });
