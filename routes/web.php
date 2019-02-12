@@ -15,7 +15,10 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/', 'Home\HomeController@index');
+Route::get('/', [
+    'as' => 'main',
+    'uses' => 'Home\HomeController@index'
+]);
 
 //Trucks
 Route::get('trucks',[

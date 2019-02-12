@@ -16,13 +16,13 @@
         <div class="nano-content">
             <nav id="menu" class="nav-main" role="navigation">
                 <ul class="nav nav-main">
-                    <li class="nav-active">
+                    <li class="@if(isset($main)) nav-active @endif">
                         <a href="/">
                             <i class="fa fa-home" aria-hidden="true"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-parent @if(substr($actualLink, 0, strlen(route('trucks'))) == route('trucks'))) nav-expanded @endif">
+                    <li class="nav-parent @if(substr($actualLink, 0, strlen(route('trucks'))) == route('trucks'))) nav-expanded nav-active @endif">
                         <a>
                             <i class="fa fa-truck" aria-hidden="true"></i>
                             <span>Trucks</span>
@@ -41,7 +41,7 @@
                         </ul>
                     </li>
 
-                    <li class="nav-parent @if(substr($actualLink, 0, strlen(route('trailers'))) == route('trailers'))) nav-expanded @endif">
+                    <li class="nav-parent @if(substr($actualLink, 0, strlen(route('trailers'))) == route('trailers'))) nav-expanded nav-active @endif">
                         <a>
                             <i class="fa fa-truck-loading" aria-hidden="true"></i>
                             <span>Trailers</span>

@@ -20,6 +20,6 @@ class HomeController extends Controller {
      */
     public function index()
     {
-        return view($this->viewPath . 'index', ['title' => 'Home']);
+        return view($this->viewPath . 'index', ['title' => 'Home', 'main' => true]);
     }
 }
