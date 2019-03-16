@@ -7,9 +7,9 @@
         <div class="sidebar-title" style="color: #abb4be;">
             Navigation
         </div>
-        <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
-            <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
-        </div>
+        {{--<div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">--}}
+            {{--<i class="fa fa-bars" aria-label="Toggle sidebar"></i>--}}
+        {{--</div>--}}
     </div>
 
     <div class="nano">
@@ -22,79 +22,25 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-parent @if(substr($actualLink, 0, strlen(route('trucks'))) == route('trucks'))) nav-expanded nav-active @endif">
-                        <a>
-                            <i class="fa fa-truck" aria-hidden="true"></i>
-                            <span>Trucks</span>
-                        </a>
-                        <ul class="nav nav-children">
-                            <li class="@if(route('trucks') == $actualLink)) nav-active @endif">
-                                <a href="{{ route('trucks') }}">
-                                    All trucks
-                                </a>
-                            </li>
-                            <li class="@if(route('addTruck') == $actualLink) nav-active @endif">
-                                <a href="{{ route('addTruck') }}">
-                                    Add truck
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-parent @if(substr($actualLink, 0, strlen(route('trailers'))) == route('trailers'))) nav-expanded nav-active @endif">
-                        <a>
-                            <i class="fa fa-truck-loading" aria-hidden="true"></i>
-                            <span>Trailers</span>
-                        </a>
-                        <ul class="nav nav-children">
-                            <li class="@if(route('trailers') == $actualLink) nav-active @endif">
-                                <a href="{{ route('trailers') }}">
-                                    All trailers
-                                </a>
-                            </li>
-                            <li class="@if(route('addTrailer') == $actualLink) nav-active @endif">
-                                <a href="{{ route('addTrailer') }}">
-                                    Add trailer
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-parent">
-                        <a>
-                            <i class="fa fa-file" aria-hidden="true"></i>
-                            <span>Invoices</span>
-                        </a>
-                        <ul class="nav nav-children">
-                            <li>
-                                <a href="pages-signup.html">
-                                    All Invoices
-                                </a>
-                            </li>
-                            <li>
-                                <a href="pages-signin.html">
-                                    Create Invoice
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-parent">
-                        <a>
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                            <span>Clients</span>
-                        </a>
-                        <ul class="nav nav-children">
-                            <li>
-                                <a href="pages-signup.html">
-                                    All Clients
-                                </a>
-                            </li>
-                            <li>
-                                <a href="pages-signin.html">
-                                    Add Client
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    @foreach($menus as $menu)
+                        <li class="nav-parent @if(substr($actualLink, 0, strlen(route($menu->route))) == route($menu->route))) nav-expanded nav-active @endif">
+                            <a>
+                                <i class="fa {{ $menu->icon }}" aria-hidden="true"></i>
+                                <span>{{ $menu->title }}</span>
+                            </a>
+                            @if(isset($menu->submenus))
+                                <ul class="nav nav-children">
+                                @foreach($menu->submenus as $submenu)
+                                    <li class="@if(route($submenu->route) == $actualLink)) nav-active @endif">
+                                        <a href="{{ route($submenu->route) }}">
+                                            {{ $submenu->title }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                                </ul>
+                            @endif
+                        </li>
+                    @endforeach
                 </ul>
             </nav>
 

@@ -46,7 +46,6 @@ class TruckController extends Controller
                 $data['trailer'] = null;
             }
 
-
             $truck = new Truck();
 
             foreach($data as $property => $value) {
@@ -58,16 +57,43 @@ class TruckController extends Controller
 
             return redirect(route('trucks'));
         } else {
-            $trucksModel = new Truck();
-            $makes = $this->constants['trucks']['makes'];
-            $trailers = Trailer::all()->where('deleted', '=', 0);
+            $trailers = $this->getTrailersAsObject();
+            $makes = $this->getTruckMakesAsObject();
+
+            $inputs = [
+                'Plate' => (object) [
+                    'name' => 'plate',
+                    'type' => 'text',
+                    'required' => true
+                ],
+
+                'Make' => (object) [
+                    'name' => 'make',
+                    'type' => 'select',
+                    'values' => $makes,
+                    'required' => true
+                ],
+
+                'Model' => (object) [
+                    'name' => 'model',
+                    'type' => 'text',
+                    'required' => false
+                ],
+
+                'Trailer' => (object) [
+                    'name' => 'trailer',
+                    'type' => 'select',
+                    'default' => 'No Trailer',
+                    'values' => $trailers,
+                    'required' => false
+                ]
+            ];
 
             return view($this->viewPath . 'add', [
                 'title' => 'Add Truck',
                 'description' => 'Add new truck',
-                'makes' => $makes,
-                'trailers' => $trailers,
-                'data' => $trucksModel->getFillable()
+                'action' => route('addTruck'),
+                'inputs' => $inputs,
             ]);
         }
     }
@@ -92,6 +118,7 @@ class TruckController extends Controller
                 $data['trailer'] = null;
                 if($truck->trailer) Trailer::releaseTrailer($truck->trailer);
             } else {
+                Trailer::releaseTrailer($truck->trailer);
                 Trailer::takeTrailer($data['trailer']);
             }
 
@@ -99,16 +126,50 @@ class TruckController extends Controller
 
             return redirect(route('trucks'));
         } else {
-            $makes = $this->constants['trucks']['makes'];
-            $trailers = Trailer::all()->where('deleted', '=', 0)->where('taken', '=', 0);
-
             if(!empty($truck)){
+                $trailers = $this->getTrailersAsObject($truck->trailer);
+                $makes = $this->getTruckMakesAsObject();
+
+                $inputs = [
+                    'Plate' => (object) [
+                        'name' => 'plate',
+                        'type' => 'text',
+                        'value' => $truck->plate,
+                        'required' => true
+                    ],
+
+                    'Make' => (object) [
+                        'name' => 'make',
+                        'type' => 'select',
+                        'check' => $truck->make,
+                        'values' => $makes,
+                        'required' => true
+                    ],
+
+                    'Model' => (object) [
+                        'name' => 'model',
+                        'type' => 'text',
+                        'value' => $truck->model,
+                        'required' => false
+                    ],
+
+                    'Trailer' => (object) [
+                        'name' => 'trailer',
+                        'type' => 'select',
+                        'default' => 'No Trailer',
+                        'selected' => $truck->trailer(),
+                        'check' => $truck->trailer,
+                        'values' => $trailers,
+                        'required' => false
+                    ]
+                ];
+
                 return view($this->viewPath . 'modify', [
-                    'title' => 'Modify truck',
+                    'title' => 'Modify Truck',
                     'description' => 'Modify truck model ' . $truck->make . ' ' . $truck->model,
-                    'makes' => $makes,
-                    'trailers' => $trailers,
-                    'data' => $truck
+                    'data' => $truck,
+                    'action' => route('modifyTruck', $truck->id),
+                    'inputs' => $inputs,
                 ]);
             } else {
                 return redirect(route('trucks'));

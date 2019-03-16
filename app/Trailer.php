@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Trailer extends Model
 {
-    protected $table = 'trailers';
+    protected $table = 'trailer';
 
     public $timestamps = false;
 
