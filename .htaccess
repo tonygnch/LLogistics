@@ -27,5 +27,4 @@
 		SetHandler application/x-httpd-php73
 	</FilesMatch>
 </IfModule>
-
 AddType image/svg+xml .svg .svgz
