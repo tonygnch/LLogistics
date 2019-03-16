@@ -97,7 +97,7 @@ class InvoiceController extends Controller
                     'name' => 'trips[]',
                     'type' => 'multipleSelect',
                     'values' => $trips,
-                    'required' => true
+                    'required' => false
                 ]
 //
 //                'CMR' => (object) [
@@ -211,7 +211,7 @@ class InvoiceController extends Controller
                         'type' => 'multipleSelect',
                         'check' => InvoiceTrip::all()->where('invoice', '=', $invoice->id),
                         'values' => $trips,
-                        'required' => true
+                        'required' => false
                     ]
 
 //                    'CMR' => (object) [
