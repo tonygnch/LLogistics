@@ -13,6 +13,9 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>CF</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -21,6 +24,9 @@
                                 <tr>
                                     <td>{{ $d->name }}</td>
                                     <td>{{ $d->email }}</td>
+                                    <td>{{ $d->phone }}</td>
+                                    <td>{{ $d->address }}</td>
+                                    <td>{{ $d->cf }}</td>
                                     <td class="actions">
                                         <a href="{{ route('modifyClient', $d->id) }}"><i class="fa fa-pencil-alt fa-2x" style="color: orange;"></i></a>
                                         <a href="{{ route('deleteClient', $d->id) }}" class="delete-row"><i class="fa fa-trash-alt fa-2x" style="color: #ed180e;"></i></a>

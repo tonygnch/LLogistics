@@ -118,12 +118,14 @@ class TripController extends Controller
                 'Start Point' => (object) [
                     'name' => 'start_point',
                     'type' => 'text',
+                    'start_point' => true,
                     'required' => false
                 ],
 
                 'End Point' => (object) [
                     'name' => 'end_point',
                     'type' => 'text',
+                    'end_point' => true,
                     'required' => true
                 ],
 
@@ -252,12 +254,14 @@ class TripController extends Controller
                     'Start Point' => (object) [
                         'name' => 'start_point',
                         'type' => 'text',
+                        'start_point' => true,
                         'required' => false
                     ],
 
                     'End Point' => (object) [
                         'name' => 'end_point',
                         'type' => 'text',
+                        'end_point' => true,
                         'required' => true
                     ],
 
@@ -269,7 +273,7 @@ class TripController extends Controller
                     ]
                 ];
 
-                $costs = Cost::all()->where('trip', '=', $trip->id);
+                $costs = Cost::all()->where('trip', '=', $trip->id)->where('deleted', '=', 0);;
 
                 return view($this->viewPath . 'modify', [
                     'data' => $trip,

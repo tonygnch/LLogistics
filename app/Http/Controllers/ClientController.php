@@ -62,7 +62,28 @@ class ClientController extends Controller
                 'Email' => (object) [
                     'name' => 'email',
                     'type' => 'email',
-                    'required' => true
+                    'required' => false
+                ],
+
+                'Phone' => (object) [
+                    'name' => 'phone',
+                    'type' => 'text',
+                    'phone' => true,
+                    'required' => false
+                ],
+
+                'Address' => (object) [
+                    'name' => 'address',
+                    'type' => 'text',
+                    'address' => true,
+                    'required' => false
+                ],
+
+                'CF' => (object) [
+                    'name' => 'cf',
+                    'type' => 'text',
+                    'cf' => true,
+                    'required' => false
                 ]
             ];
 
@@ -108,7 +129,31 @@ class ClientController extends Controller
                         'name' => 'email',
                         'type' => 'email',
                         'value' => $client->email,
-                        'required' => true
+                        'required' => false
+                    ],
+
+                    'Phone' => (object) [
+                        'name' => 'phone',
+                        'type' => 'text',
+                        'phone' => true,
+                        'value' => $client->phone,
+                        'required' => false
+                    ],
+
+                    'Address' => (object) [
+                        'name' => 'address',
+                        'type' => 'text',
+                        'address' => true,
+                        'value' => $client->address,
+                        'required' => false
+                    ],
+
+                    'CF' => (object) [
+                        'name' => 'cf',
+                        'type' => 'text',
+                        'cf' => true,
+                        'value' => $client->cf,
+                        'required' => false
                     ]
                 ];
 

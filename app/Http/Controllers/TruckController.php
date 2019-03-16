@@ -118,6 +118,7 @@ class TruckController extends Controller
                 $data['trailer'] = null;
                 if($truck->trailer) Trailer::releaseTrailer($truck->trailer);
             } else {
+                Trailer::releaseTrailer($truck->trailer);
                 Trailer::takeTrailer($data['trailer']);
             }
 
@@ -126,7 +127,7 @@ class TruckController extends Controller
             return redirect(route('trucks'));
         } else {
             if(!empty($truck)){
-                $trailers = $this->getTrailersAsObject();
+                $trailers = $this->getTrailersAsObject($truck->trailer);
                 $makes = $this->getTruckMakesAsObject();
 
                 $inputs = [

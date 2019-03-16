@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Cost;
 use App\Invoice;
+use App\InvoiceTrip;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -53,14 +54,23 @@ class InvoiceController extends Controller
 
             $invoice->save();
 
-            foreach($data['costs'] as $cost) {
-                $cost['invoice'] = $invoice->id;
-                $this->createCost($cost);
+            if(isset($data['costs'])) {
+                foreach($data['costs'] as $cost) {
+                    $cost['invoice'] = $invoice->id;
+                    $this->createCost($cost);
+                }
+            }
+
+            if(isset($data['trips'])) {
+                foreach($data['trips'] as $trip) {
+                    $this->createInvoiceTripItem($invoice->id, $trip);
+                }
             }
 
             return redirect(route('invoices'));
         } else {
             $clients = $this->getClientsAsObject();
+            $trips = $this->getTripsAsObject();
 
             $inputs = [
                 'Number' => (object) [
@@ -82,6 +92,13 @@ class InvoiceController extends Controller
                     'values' => $clients,
                     'required' => true
                 ],
+
+                'Trips' => (object) [
+                    'name' => 'trips[]',
+                    'type' => 'multipleSelect',
+                    'values' => $trips,
+                    'required' => true
+                ]
 //
 //                'CMR' => (object) [
 //                    'name' => 'cmr',
@@ -106,6 +123,7 @@ class InvoiceController extends Controller
      * @param int $id
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @throws \Exception
      */
     public function modify($id, Request $request)
     {
@@ -125,6 +143,10 @@ class InvoiceController extends Controller
             if(isset($data['newCosts'])) {
                 $newCosts = $data['newCosts'];
                 unset($data['newCosts']);
+            }
+            if(isset($data['trips'])) {
+                $trips = $data['trips'];
+                unset($data['trips']);
             }
 
             $invoice->update($data);
@@ -147,10 +169,18 @@ class InvoiceController extends Controller
                 }
             }
 
+            if(isset($trips)) {
+                $this->deleteAllInvoiceTrips($invoice->id);
+                foreach($trips as $trip) {
+                    $this->createInvoiceTripItem($invoice->id, $trip);
+                }
+            }
+
             return redirect(route('invoices'));
         } else {
             if(!empty($invoice)){
                 $clients = $this->getClientsAsObject();
+                $trips = $this->getTripsAsObject();
 
                 $inputs = [
                     'Number' => (object) [
@@ -176,6 +206,14 @@ class InvoiceController extends Controller
                         'required' => true
                     ],
 
+                    'Trips' => (object) [
+                        'name' => 'trips[]',
+                        'type' => 'multipleSelect',
+                        'check' => InvoiceTrip::all()->where('invoice', '=', $invoice->id),
+                        'values' => $trips,
+                        'required' => true
+                    ]
+
 //                    'CMR' => (object) [
 //                        'name' => 'cmr',
 //                        'type' => 'file',
@@ -184,7 +222,7 @@ class InvoiceController extends Controller
 //                    ]
                 ];
 
-                $costs = Cost::all()->where('invoice', '=', $invoice->id);
+                $costs = Cost::all()->where('invoice', '=', $invoice->id)->where('deleted', '=', 0);
 
                 return view($this->viewPath . 'modify', [
                     'data' => $invoice,

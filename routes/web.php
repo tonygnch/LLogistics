@@ -181,6 +181,15 @@ Route::get('drivers/delete/{id}',[
 ]);
 
 /**
+ * Cost
+ */
+
+Route::get('/ajaxDeleteCost/{id}',[
+    'as' => 'ajaxDeleteCost',
+    'uses' => 'Common\AjaxController@deleteCost'
+]);
+
+/**
  * Login Stuff
  */
 

@@ -44,6 +44,8 @@ $(document).ready(function() {
         $('.delete-cost').on('click', function () {
             let id = $(this).data('id');
 
+            $.get($(this).data('url'));
+
             $('div.costItem[data-id="' + id +'"]').remove();
 
             if($('.costsList').html().trim().length == 0) {

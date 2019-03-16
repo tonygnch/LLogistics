@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\Cost;
 use App\Driver;
+use App\InvoiceTrip;
 use App\Trailer;
+use App\Trip;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -33,8 +35,10 @@ class Controller extends BaseController
      * Get trailers as object
      * @return \stdClass
      */
-    public function getTrailersAsObject(){
+    public function getTrailersAsObject($withTrailer = null){
         $trailersModels = Trailer::all()->where('deleted', '=', 0)->where('taken', '=', 0);
+        if(!empty($withTrailer))
+            $trailersModels->add(Trailer::find($withTrailer));
         $trailers = [];
         foreach($trailersModels as $trailer) {
             $trailers[$trailer->id]['value'] = $trailer->id;
@@ -88,13 +92,27 @@ class Controller extends BaseController
      * @return mixed
      */
     public function getDriversAsObject(){
-        $drivers = Driver::all();
+        $drivers = Driver::all()->where('deleted', '=', 0);
         $driversArr = [];
         foreach($drivers as $key => $driver) {
             $driversArr[$key]['value'] = $driver->id;
             $driversArr[$key]['option'] = $driver->name . ' ' . $driver->surname;
         }
         return json_decode(json_encode($driversArr), FALSE);
+    }
+
+    /**
+     * Get all available drivers as object
+     * @return mixed
+     */
+    public function getTripsAsObject(){
+        $trips = Trip::all()->where('deleted', '=', 0);
+        $tripsArr = [];
+        foreach($trips as $key => $trip) {
+            $tripsArr[$key]['value'] = $trip->id;
+            $tripsArr[$key]['option'] = $trip->client()->name . ' | ' . $trip->start_point . ' - ' . $trip->end_point;
+        }
+        return json_decode(json_encode($tripsArr), FALSE);
     }
 
     /**
@@ -110,6 +128,35 @@ class Controller extends BaseController
             $cost->{$property} = $value;
 
         $cost->save();
+    }
+
+    /**
+     * Create invoice trip
+     * @param int $invoice
+     * @param int $trip
+     * @return void
+     */
+    public function createInvoiceTripItem($invoice, $trip) {
+        $invoiceTrip = new InvoiceTrip();
+
+        $invoiceTrip->invoice = $invoice;
+        $invoiceTrip->trip = $trip;
+
+        $invoiceTrip->save();
+    }
+
+    /**
+     * Delete all invoice trips
+     * @param int $invoice
+     * @throws \Exception
+     * @return void
+     */
+    public function deleteAllInvoiceTrips($invoice) {
+        $invoiceTrips = InvoiceTrip::all()->where('invoice', '=', $invoice);
+
+        /** @var InvoiceTrip $invoiceTrip */
+        foreach($invoiceTrips as $invoiceTrip)
+            $invoiceTrip->delete();
     }
 
     /**

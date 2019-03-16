@@ -22,6 +22,16 @@
                                             $icon = 'fa-envelope';
                                         if(isset($input->number) and $input->number)
                                             $icon = 'fa-sort-numeric-down';
+                                        if(isset($input->phone) and $input->phone)
+                                            $icon = 'fa-mobile-alt';
+                                        if(isset($input->address) and $input->address)
+                                            $icon = 'fa-map-marker-alt';
+                                        if($input->name == 'name')
+                                            $icon = 'fa-signature';
+                                        if(isset($input->start_point) and $input->start_point)
+                                            $icon = 'fa-hand-point-right';
+                                        if(isset($input->end_point) and $input->end_point)
+                                            $icon = 'fa-hand-point-left';
                                     ?>
                                     <div class="input-group">
                                         <span class="input-group-addon">
@@ -32,11 +42,31 @@
                                 @elseif($input->type == 'select')
                                     <select class="form-control" data-plugin-multiselect name="{{ $input->name }}" @if($input->required) required @endif>
                                         @if(isset($input->default)) <option value="0">{{ $input->default }}</option> @endif
-{{--                                        @if(isset($input->selected)) <option value="{{ $input->selected->id }}" selected>{{ $input->selected->plate }} - {{ $input->selected->make }}</option> @endif--}}
                                         @foreach($input->values as $value)
                                             <option value="{{ $value->value }}" @if($data->{$input->name} == $value->value) selected @endif>{{ $value->option }}</option>
                                         @endforeach
                                     </select>
+                                @elseif($input->type == 'multipleSelect')
+                                    <div class="input-group btn-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-road"></i>
+                                        </span>
+                                        <select class="form-control" multiple="multiple" data-plugin-multiselect name="{{ $input->name }}" @if($input->required) required @endif>
+                                            @if(isset($input->default)) <option value="0">{{ $input->default }}</option> @endif
+                                            @foreach($input->values as $value)
+                                                <?php
+                                                    $selected = '';
+                                                    foreach($input->check as $c) {
+                                                        if($c->trip == $value->value) {
+                                                            $selected = 'selected';
+                                                        }
+                                                    }
+                                                    error_log($selected);
+                                                ?>
+                                                <option value="{{ $value->value }}" <?php echo $selected ?>>{{ $value->option }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 @elseif($input->type == 'date')
                                     <div class="input-group">
                                         <span class="input-group-addon">
@@ -88,7 +118,7 @@
                                         </div>
                                         <div class="col-md-1">
                                             {{--<label class="col-md-2 control-label">&nbsp;</label>--}}
-                                            <button type="button" class="delete-cost mb-xs mt-xs mr-xs btn btn-danger" data-id="{{ $cost->id }}" style="margin-top: 29px !important;">X</button>
+                                            <button type="button" class="delete-cost mb-xs mt-xs mr-xs btn btn-danger" data-id="{{ $cost->id }}" data-url="{{ route('ajaxDeleteCost', ['id' => $cost->id]) }}" style="margin-top: 29px !important;">X</button>
                                         </div>
                                     </div>
                                 @endforeach
@@ -116,7 +146,7 @@
                 </div>
                 <div class="col-md-1">
                     {{--<label class="col-md-2 control-label">&nbsp;</label>--}}
-                    <button type="button" class="delete-cost mb-xs mt-xs mr-xs btn btn-danger" data-id="costsID" style="margin-top: 29px !important;">X</button>
+                    <button type="button" class="delete-cost mb-xs mt-xs mr-xs btn btn-danger" data-id="costsID" data-url="{{ route('ajaxDeleteCost', ['id' => 'costsID']) }}" style="margin-top: 29px !important;">X</button>
                 </div>
             </div>
         </div>

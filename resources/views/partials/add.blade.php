@@ -21,6 +21,16 @@
                                         $icon = 'fa-envelope';
                                     if(isset($input->number) and $input->number)
                                         $icon = 'fa-sort-numeric-down';
+                                    if(isset($input->phone) and $input->phone)
+                                        $icon = 'fa-mobile-alt';
+                                    if(isset($input->address) and $input->address)
+                                        $icon = 'fa-map-marker-alt';
+                                    if($input->name == 'name')
+                                        $icon = 'fa-signature';
+                                    if(isset($input->start_point) and $input->start_point)
+                                        $icon = 'fa-hand-point-right';
+                                    if(isset($input->end_point) and $input->end_point)
+                                        $icon = 'fa-hand-point-left';
                                     ?>
                                     <div class="input-group">
                                         <span class="input-group-addon">
@@ -35,6 +45,18 @@
                                             <option value="{{ $value->value }}">{{ $value->option }}</option>
                                         @endforeach
                                     </select>
+                                @elseif($input->type == 'multipleSelect')
+                                    <div class="input-group btn-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-road"></i>
+                                        </span>
+                                        <select class="form-control" multiple="multiple" data-plugin-multiselect name="{{ $input->name }}" @if($input->required) required @endif>
+                                            @if(isset($input->default)) <option value="0" selected>{{ $input->default }}</option>@endif
+                                            @foreach($input->values as $value)
+                                                <option value="{{ $value->value }}">{{ $value->option }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 @elseif($input->type == 'date')
                                     <div class="input-group">
                                         <span class="input-group-addon">
@@ -97,7 +119,7 @@
                 </div>
                 <div class="col-md-1">
                     {{--<label class="col-md-2 control-label">&nbsp;</label>--}}
-                    <button type="button" class="delete-cost mb-xs mt-xs mr-xs btn btn-danger" data-id="costsID" style="margin-top: 29px !important;">X</button>
+                    <button type="button" class="delete-cost mb-xs mt-xs mr-xs btn btn-danger" data-id="costsID" data-url="{{ route('ajaxDeleteCost', ['id' => 'costsID']) }}" style="margin-top: 29px !important;">X</button>
                 </div>
             </div>
         </div>

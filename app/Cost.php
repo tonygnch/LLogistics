@@ -24,4 +24,13 @@ class Cost extends Model
         'description',
         'deleted'
     ];
+
+    /**
+     * Delete cost
+     * @return bool|null|void
+     */
+    public function delete(){
+        $this->deleted = 1;
+        $this->save();
+    }
 }
