@@ -24,6 +24,7 @@
         <!-- Specific Page Vendor CSS -->
         <link rel="stylesheet" href="/assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
         <link rel="stylesheet" href="/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" />
+        <link rel="stylesheet" href="/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.css"/>
         <link rel="stylesheet" href="/assets/vendor/morris/morris.css" />
 
         <!-- Theme CSS -->
@@ -59,6 +60,7 @@
     <script src="/assets/vendor/bootstrap/js/bootstrap.js"></script>
     <script src="/assets/vendor/nanoscroller/nanoscroller.js"></script>
     <script src="/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
     <script src="/assets/vendor/magnific-popup/magnific-popup.js"></script>
     <script src="/assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 
@@ -100,5 +102,7 @@
 
 
     <!-- Examples -->
-    <script src="/assets/javascripts/dashboard/examples.dashboard.js"></script>
+    {{--<script src="/assets/javascripts/dashboard/examples.dashboard.js"></script>--}}
+
+    <script src="/js/llogistics.js"></script>
 </html>

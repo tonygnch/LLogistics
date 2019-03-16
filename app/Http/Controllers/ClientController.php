@@ -1,0 +1,143 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Tony
+ * Date: 26-Jan-19
+ * Time: 21:16
+ */
+
+namespace App\Http\Controllers;
+
+use App\Client;
+use Illuminate\Http\Request;
+
+class ClientController extends Controller
+{
+    protected $viewPath = '/clients/';
+
+    /**
+     * Index action for clients
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(){
+        $data = Client::all()->where('deleted', '=', '0');
+
+        return view($this->viewPath . 'index', [
+            'title' => 'All Clients',
+            'description' => 'Showing all clients',
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * Add action for clients
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function add(Request $request)
+    {
+        if($request->isMethod('POST')){
+            $data = $request->post();
+            unset($data['_token']);
+            unset($data['multiselect']);
+
+            $client = new Client();
+
+            foreach($data as $property => $value) {
+                $client->{$property} = $value;
+            }
+
+            $client->save();
+
+            return redirect(route('clients'));
+        } else {
+
+            $inputs = [
+                'Name' => (object) [
+                    'name' => 'name',
+                    'type' => 'text',
+                    'required' => true
+                ],
+
+                'Email' => (object) [
+                    'name' => 'email',
+                    'type' => 'email',
+                    'required' => true
+                ]
+            ];
+
+            return view($this->viewPath . 'add', [
+                'title' => 'Add Client',
+                'inputs' => $inputs,
+                'action' => route('addClient'),
+                'description' => 'Add new client'
+            ]);
+        }
+    }
+
+    /**
+     * Modify action for clients
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
+    public function modify($id, Request $request)
+    {
+        /** @var Client $client */
+        $client = Client::find($id);
+
+        if($request->isMethod('POST')){
+            $data = $request->post();
+            unset($data['_token']);
+
+            $client->update($data);
+
+            return redirect(route('clients'));
+        } else {
+            if(!empty($client)){
+
+                $inputs = [
+                    'Name' => (object) [
+                        'name' => 'name',
+                        'type' => 'text',
+                        'value' => $client->name,
+                        'required' => true
+                    ],
+
+                    'Email' => (object) [
+                        'name' => 'email',
+                        'type' => 'email',
+                        'value' => $client->email,
+                        'required' => true
+                    ]
+                ];
+
+                return view($this->viewPath . 'modify', [
+                    'title' => 'Modify client',
+                    'description' => 'Modify client ' . $client->name,
+                    'data' => $client,
+                    'inputs' => $inputs,
+                    'action' => route('modifyClient', ['id' => $client->id])
+                ]);
+            } else {
+                return redirect(route('clients'));
+            }
+        }
+    }
+
+    /**
+     * Delete action for clients
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function delete($id)
+    {
+        /** @var Client $client */
+        $client = Client::find($id);
+        if(!empty($client)) {
+            $client->delete();
+        }
+
+        return redirect(route('clients'));
+    }
+}

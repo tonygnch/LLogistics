@@ -1,4 +1,4 @@
 @extends('layout')
 @section('content')
-    @include('partials.add')
+    @include('partials.modify')
 @endsection

@@ -51,14 +51,34 @@ class TrailerController extends Controller
 
             return redirect(route('trailers'));
         } else {
-            $trailersModel = new Trailer();
-            $makes = $this->constants['trailers']['makes'];
+            $makes = $this->getTrailerMakesAsObject();
+
+            $inputs = [
+                'Plate' => (object) [
+                    'name' => 'plate',
+                    'type' => 'text',
+                    'required' => true
+                ],
+
+                'Make' => (object) [
+                    'name' => 'make',
+                    'type' => 'select',
+                    'values' => $makes,
+                    'required' => true
+                ],
+
+                'Model' => (object) [
+                    'name' => 'model',
+                    'type' => 'text',
+                    'required' => false
+                ],
+            ];
 
             return view($this->viewPath . 'add', [
                 'title' => 'Add Trailer',
                 'description' => 'Add new trailer',
-                'makes' => $makes,
-                'data' => $trailersModel->getFillable()
+                'action' => route('addTrailer'),
+                'inputs' => $inputs
             ]);
         }
     }
@@ -83,14 +103,40 @@ class TrailerController extends Controller
 
             return redirect(route('trailers'));
         } else {
-            $makes = $this->constants['trailers']['makes'];
 
             if(!empty($trailer)){
+                $makes = $this->getTrailerMakesAsObject();
+
+                $inputs = [
+                    'Plate' => (object) [
+                        'name' => 'plate',
+                        'type' => 'text',
+                        'value' => $trailer->plate,
+                        'required' => true
+                    ],
+
+                    'Make' => (object) [
+                        'name' => 'make',
+                        'type' => 'select',
+                        'check' => $trailer->make,
+                        'values' => $makes,
+                        'required' => true
+                    ],
+
+                    'Model' => (object) [
+                        'name' => 'model',
+                        'type' => 'text',
+                        'value' => $trailer->model,
+                        'required' => false
+                    ],
+                ];
+
                 return view($this->viewPath . 'modify', [
-                    'title' => 'Modify trailer',
+                    'title' => 'Modify Trailer',
                     'description' => 'Modify trailer model ' . $trailer->make . ' ' . $trailer->model,
-                    'makes' => $makes,
-                    'data' => $trailer
+                    'data' => $trailer,
+                    'action' => route('modifyTrailer', ['id' => $trailer->id]),
+                    'inputs' => $inputs
                 ]);
             } else {
                 return redirect(route('trailers'));
