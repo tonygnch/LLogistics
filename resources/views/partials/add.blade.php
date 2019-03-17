@@ -48,7 +48,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa {{ $icon }}"></i>
                                         </span>
-                                        <input placeholder="{{ $label }}" type="{{ $input->type }}" name="{{ $input->name }}" class="form-control" @if(isset($input->number)) data-number="number" @endif @if($input->required) required @endif>
+                                        <input placeholder="{{ $label }}" type="{{ $input->type }}" name="{{ $input->name }}" class="form-control" @if(isset($input->value)) value="{{ $input->value }}" @endif @if(isset($input->number)) data-number="number" @endif @if($input->required) required @endif>
                                     </div>
                                 @elseif($input->type == 'select')
                                     <select class="form-control" data-plugin-multiselect name="{{ $input->name }}" @if($input->required) required @endif>

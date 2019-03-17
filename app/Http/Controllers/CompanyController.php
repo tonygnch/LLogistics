@@ -127,8 +127,8 @@ class CompanyController extends Controller
         ];
 
         return view($this->viewPath . 'index', [
-            'title' => 'Modify client',
-            'description' => 'Modify client company',
+            'title' => 'Modify company',
+            'description' => 'Modify company',
             'data' => $company,
             'inputs' => $inputs
         ]);

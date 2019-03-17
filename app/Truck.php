@@ -31,6 +31,30 @@ class Truck extends Model
     }
 
     /**
+     * Take truck
+     * @return void
+     */
+    public static function takeTruck($id) {
+        $truck = Truck::find($id);
+        if(!empty($truck)){
+            $truck->taken = 1;
+            $truck->save();
+        }
+    }
+
+    /**
+     * Release truck
+     * @return void
+     */
+    public static function releaseTruck($id) {
+        $truck = Truck::find($id);
+        if(!empty($truck)){
+            $truck->taken = 0;
+            $truck->save();
+        }
+    }
+
+    /**
      * Delete truck
      * @return bool|null|void
      */

@@ -23,6 +23,12 @@ Route::get('/', [
 ]);
 
 /**
+ * Ajax
+ */
+Route::get('/ajaxGetDriverTruck/{driver}', 'Common\AjaxController@getDriverTruck');
+Route::get('/ajaxGetTruckTrailer/{truck}', 'Common\AjaxController@getTruckTrailer');
+
+/**
  * Trucks
  */
 

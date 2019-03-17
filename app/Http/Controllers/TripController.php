@@ -65,8 +65,8 @@ class TripController extends Controller
         } else {
             $drivers = $this->getDriversAsObject();
             $clients = $this->getClientsAsObject();
-            $trucks = $this->getTruckMakesAsObject();
-            $trailers = $this->getTrailerMakesAsObject();
+            $trucks = $this->getAllTrucksWithTrailersAsObject();
+            $trailers = $this->getTakenTrailersAsObject();
 
             $inputs = [
                 'Driver' => (object) [
@@ -208,8 +208,8 @@ class TripController extends Controller
             if(!empty($trip)){
                 $drivers = $this->getDriversAsObject();
                 $clients = $this->getClientsAsObject();
-                $trucks = $this->getTruckMakesAsObject();
-                $trailers = $this->getTrailerMakesAsObject();
+                $trucks = $this->getAllTrucksWithTrailersAsObject();
+                $trailers = $this->getTakenTrailersAsObject();
 
                 $inputs = [
                     'Driver' => (object) [

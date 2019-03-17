@@ -18,6 +18,18 @@ class Driver extends Model
     ];
 
     /**
+     * Get truck
+     * @return Truck
+     */
+    public function truck(){
+        if($this->truck) {
+            return Truck::find($this->truck);
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Delete driver
      * @return bool|null|void
      */

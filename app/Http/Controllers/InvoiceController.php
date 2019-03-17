@@ -27,7 +27,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $data = Invoice::all()->where('deleted', '=', '0');
+        $data = Invoice::all()->where('deleted', '=', '0')->sortByDesc('date');
 
         return view($this->viewPath . 'index', [
             'title' => 'All Invoices',
@@ -76,12 +76,14 @@ class InvoiceController extends Controller
         } else {
             $clients = $this->getClientsAsObject();
             $trips = $this->getTripsAsObject();
+            $lastInvoiceNumber = Invoice::all()->sortByDesc('number')->first()->number + 1;
 
             $inputs = [
                 'Number' => (object)[
                     'name' => 'number',
                     'type' => 'text',
                     'number' => true,
+                    'value' => $lastInvoiceNumber,
                     'required' => true
                 ],
 
@@ -537,7 +539,7 @@ class InvoiceController extends Controller
             // ---------------------------------------------------------
 
             //Close and output PDF document
-            $pdf->Output('example_017.pdf', 'I');
+            $pdf->Output('Invoice ' . $invoice->number . '.pdf', 'I');
         }
     }
 }

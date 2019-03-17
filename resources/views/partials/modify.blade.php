@@ -73,7 +73,6 @@
                                                             $selected = 'selected';
                                                         }
                                                     }
-                                                    error_log($selected);
                                                 ?>
                                                 <option value="{{ $value->value }}" <?php echo $selected ?>>{{ $value->option }}</option>
                                             @endforeach

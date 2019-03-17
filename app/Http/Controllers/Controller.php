@@ -9,6 +9,7 @@ use App\InvoiceTrip;
 use App\Setting;
 use App\Trailer;
 use App\Trip;
+use App\Truck;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -35,6 +36,7 @@ class Controller extends BaseController
 
     /**
      * Get trailers as object
+     * @param int $withTrailer
      * @return \stdClass
      */
     public function getTrailersAsObject($withTrailer = null){
@@ -46,7 +48,21 @@ class Controller extends BaseController
             $trailers[$trailer->id]['value'] = $trailer->id;
             $trailers[$trailer->id]['option'] = $trailer->plate . ' ' . $trailer->make;
         }
-        return json_decode(json_encode($trailers), FALSE);
+        return json_decode(json_encode($trailers));
+    }
+
+    /**
+     * Get all trailers as object
+     * @return \stdClass
+     */
+    public function getTakenTrailersAsObject(){
+        $trailersModels = Trailer::all()->where('deleted', '=', 0)->where('taken', '=', 1);
+        $trailers = [];
+        foreach($trailersModels as $trailer) {
+            $trailers[$trailer->id]['value'] = $trailer->id;
+            $trailers[$trailer->id]['option'] = $trailer->plate . ' ' . $trailer->make;
+        }
+        return json_decode(json_encode($trailers));
     }
 
     /**
@@ -59,7 +75,38 @@ class Controller extends BaseController
             $makes[$key]['value'] = $make;
             $makes[$key]['option'] = $make;
         }
-        return json_decode(json_encode($makes), FALSE);
+        return json_decode(json_encode($makes));
+    }
+
+    /**
+     * Get trucks as object
+     * @param int $withTruck
+     * @return \stdClass
+     */
+    public function getTrucksAsObject($withTruck = null){
+        $trucks = Truck::all()->where('deleted', '=', 0)->where('taken', '=', 0);
+        if(!empty($withTruck))
+            $trucks->add(Truck::find($withTruck));
+        $trucksArr = [];
+        foreach ($trucks as $key => $truck) {
+            $trucksArr[$key]['value'] = $truck->id;
+            $trucksArr[$key]['option'] = $truck->plate . ' - ' . $truck->make;
+        }
+        return json_decode(json_encode($trucksArr));
+    }
+
+    /**
+     * Get all trucks as object
+     * @return \stdClass
+     */
+    public function getAllTrucksWithTrailersAsObject(){
+        $trucks = Truck::all()->where('deleted', '=', 0)->where('trailer', '!=', null);
+        $trucksArr = [];
+        foreach ($trucks as $key => $truck) {
+            $trucksArr[$key]['value'] = $truck->id;
+            $trucksArr[$key]['option'] = $truck->plate . ' - ' . $truck->make;
+        }
+        return json_decode(json_encode($trucksArr));
     }
 
     /**
@@ -72,7 +119,7 @@ class Controller extends BaseController
             $makes[$key]['value'] = $make;
             $makes[$key]['option'] = $make;
         }
-        return json_decode(json_encode($makes), FALSE);
+        return json_decode(json_encode($makes));
     }
 
     /**
@@ -86,7 +133,7 @@ class Controller extends BaseController
             $clientsArr[$key]['value'] = $client->id;
             $clientsArr[$key]['option'] = $client->name;
         }
-        return json_decode(json_encode($clientsArr), FALSE);
+        return json_decode(json_encode($clientsArr));
     }
 
     /**
@@ -100,7 +147,7 @@ class Controller extends BaseController
             $driversArr[$key]['value'] = $driver->id;
             $driversArr[$key]['option'] = $driver->name . ' ' . $driver->surname;
         }
-        return json_decode(json_encode($driversArr), FALSE);
+        return json_decode(json_encode($driversArr));
     }
 
     /**
@@ -114,7 +161,7 @@ class Controller extends BaseController
             $tripsArr[$key]['value'] = $trip->id;
             $tripsArr[$key]['option'] = $trip->client()->name . ' | ' . $trip->start_point . ' - ' . $trip->end_point;
         }
-        return json_decode(json_encode($tripsArr), FALSE);
+        return json_decode(json_encode($tripsArr));
     }
 
     /**

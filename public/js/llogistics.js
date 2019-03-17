@@ -58,4 +58,19 @@ $(document).ready(function() {
 
     deleteCost();
 
+    $('select[name="driver"]').change(function () {
+        $.get('/ajaxGetDriverTruck/' + $(this).val(), function (response) {
+            $('select[name="truck"]').val(response).multiselect('refresh');
+            $.get('/ajaxGetTruckTrailer/' + $('select[name="truck"]').val(), function (response) {
+                $('select[name="trailer"]').val(response).multiselect('refresh');
+            });
+
+        });
+    });
+
+    $('select[name="truck"]').change(function () {
+        $.get('/ajaxGetTruckTrailer/' + $(this).val(), function (response) {
+            $('select[name="trailer"]').val(response).multiselect('refresh');
+        });
+    });
 });

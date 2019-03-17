@@ -10,7 +10,9 @@ namespace App\Http\Controllers\Common;
 
 
 use App\Cost;
+use App\Driver;
 use App\Http\Controllers\Controller;
+use App\Truck;
 use Illuminate\Support\Facades\DB;
 
 class AjaxController extends Controller
@@ -33,5 +35,25 @@ class AjaxController extends Controller
         $cost = Cost::find($id);
         if(!empty($cost))
             $cost->delete();
+    }
+
+    /**
+     * Get driver truck
+     * @param int $driver
+     * @return int
+     */
+    public function getDriverTruck($driver) {
+        $driver = Driver::find($driver);
+        return $driver->truck;
+    }
+
+    /**
+     * Get truck trailer
+     * @param int $truck
+     * @return int
+     */
+    public function getTruckTrailer($truck) {
+        $truck = Truck::find($truck);
+        return $truck->trailer;
     }
 }

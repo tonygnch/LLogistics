@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Driver;
+use App\Truck;
 use Illuminate\Http\Request;
 
 class DriverController extends Controller
@@ -41,17 +42,22 @@ class DriverController extends Controller
             unset($data['_token']);
             unset($data['multiselect']);
 
-            $trip = new Driver();
-
-            foreach($data as $property => $value) {
-                $trip->{$property} = $value;
+            if($data['truck'] == 0) {
+                $data['truck'] = null;
             }
 
-            $trip->save();
+            $driver = new Driver();
+
+            foreach($data as $property => $value) {
+                $driver->{$property} = $value;
+            }
+
+            $driver->save();
+            Truck::takeTruck($data['truck']);
 
             return redirect(route('drivers'));
         } else {
-            $trucks = $this->getTruckMakesAsObject();
+            $trucks = $this->getTrucksAsObject();
 
             $inputs = [
                 'Name' => (object) [
@@ -69,8 +75,9 @@ class DriverController extends Controller
                 'Truck' => (object) [
                     'name' => 'truck',
                     'type' => 'select',
+                    'default' => 'No Truck',
                     'values' => $trucks,
-                    'required' => true
+                    'required' => false
                 ]
             ];
 
@@ -80,6 +87,71 @@ class DriverController extends Controller
                 'action' => route('addDriver'),
                 'description' => 'Add new driver'
             ]);
+        }
+    }
+
+    /**
+     * Add action for drivers
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function modify($id, Request $request)
+    {
+        /** @var driver $driver */
+        $driver = driver::find($id);
+
+        if($request->isMethod('POST')){
+            $data = $request->post();
+            unset($data['_token']);
+            unset($data['multiselect']);
+
+            if($data['truck'] == 0) {
+                $data['truck'] = null;
+                if($driver->truck) Truck::releaseTruck($driver->truck);
+            } else {
+                Truck::releaseTruck($driver->truck);
+                Truck::takeTruck($data['truck']);
+            }
+
+            $driver->update($data);
+
+            return redirect(route('drivers'));
+        } else {
+            if(!empty($driver)){
+                $trucks = $this->getTrucksAsObject($driver->truck);
+
+                $inputs = [
+                    'Name' => (object) [
+                        'name' => 'name',
+                        'type' => 'text',
+                        'required' => true
+                    ],
+
+                    'Surname' => (object) [
+                        'name' => 'surname',
+                        'type' => 'text',
+                        'required' => true
+                    ],
+
+                    'Truck' => (object) [
+                        'name' => 'truck',
+                        'type' => 'select',
+                        'default' => 'No Truck',
+                        'values' => $trucks,
+                        'required' => false
+                    ]
+                ];
+
+                return view($this->viewPath . 'modify', [
+                    'title' => 'Modify driver',
+                    'description' => 'Modify driver ' . $driver->name,
+                    'data' => $driver,
+                    'action' => route('modifyDriver', $driver->id),
+                    'inputs' => $inputs,
+                ]);
+            } else {
+                return redirect(route('drivers'));
+            }
         }
     }
 }

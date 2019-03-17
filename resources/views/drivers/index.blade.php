@@ -20,7 +20,7 @@
                             @foreach($data as $d)
                                 <tr>
                                     <td>{{ $d->name }} {{ $d->surname }}</td>
-                                    <td>{{ $d->truck }}</td>
+                                    <td>@if($d->truck()) {{ $d->truck()->plate }} - {{ $d->truck()->make }} @endif</td>
                                     <td class="actions">
                                         <a href="{{ route('modifyDriver', $d->id) }}"><i class="fa fa-pencil-alt fa-2x" style="color: orange;"></i></a>
                                         <a href="{{ route('deleteDriver', $d->id) }}" class="delete-row"><i class="fa fa-trash-alt fa-2x" style="color: #ed180e;"></i></a>
