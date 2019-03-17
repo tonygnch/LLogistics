@@ -61,10 +61,14 @@ $(document).ready(function() {
     $('select[name="driver"]').change(function () {
         $.get('/ajaxGetDriverTruck/' + $(this).val(), function (response) {
             $('select[name="truck"]').val(response).multiselect('refresh');
-            $.get('/ajaxGetTruckTrailer/' + $('select[name="truck"]').val(), function (response) {
-                $('select[name="trailer"]').val(response).multiselect('refresh');
-            });
-
+            console.log($('select[name="truck"]').val(response));
+            if($('select[name="truck"]').val() == null) {
+                $('select[name="trailer"]').val(0).multiselect('refresh');
+            } else {
+                $.get('/ajaxGetTruckTrailer/' + $('select[name="truck"]').val(), function (response) {
+                    $('select[name="trailer"]').val(response).multiselect('refresh');
+                });
+            }
         });
     });
 
