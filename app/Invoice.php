@@ -13,7 +13,7 @@ class Invoice extends Model
     protected $fillable = [
         'date',
         'client',
-        'cmr',
+        'place',
         'number',
         'deleted'
     ];

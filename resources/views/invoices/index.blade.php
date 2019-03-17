@@ -26,6 +26,7 @@
                                     <td>{{ $d->client()->name }}</td>
                                     <td>{{ $d->cmr }}</td>
                                     <td class="actions">
+                                        <a href="{{ route('generateInvoicePdf', $d->id) }}"><i class="fas fa-file-invoice fa-2x" style="color: green;"></i></a>
                                         <a href="{{ route('modifyInvoice', $d->id) }}"><i class="fa fa-pencil-alt fa-2x" style="color: orange;"></i></a>
                                         <a href="{{ route('deleteInvoice', $d->id) }}" class="delete-row"><i class="fa fa-trash-alt fa-2x" style="color: #ed180e;"></i></a>
                                     </td>

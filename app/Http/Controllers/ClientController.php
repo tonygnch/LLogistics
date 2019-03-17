@@ -84,6 +84,34 @@ class ClientController extends Controller
                     'type' => 'text',
                     'cf' => true,
                     'required' => false
+                ],
+
+                'City' => (object) [
+                    'name' => 'city',
+                    'type' => 'text',
+                    'city' => true,
+                    'required' => false
+                ],
+
+                'Country' => (object) [
+                    'name' => 'country',
+                    'type' => 'text',
+                    'country' => true,
+                    'required' => false
+                ],
+
+                'VAT' => (object) [
+                    'name' => 'vat',
+                    'type' => 'text',
+                    'vat' => true,
+                    'required' => false
+                ],
+
+                '€/kg' => (object) [
+                    'name' => 'weight_cost',
+                    'type' => 'text',
+                    'weight_cost' => true,
+                    'required' => false
                 ]
             ];
 
@@ -153,6 +181,38 @@ class ClientController extends Controller
                         'type' => 'text',
                         'cf' => true,
                         'value' => $client->cf,
+                        'required' => false
+                    ],
+
+                    'City' => (object) [
+                        'name' => 'city',
+                        'type' => 'text',
+                        'city' => true,
+                        'value' => $client->city,
+                        'required' => false
+                    ],
+
+                    'Country' => (object) [
+                        'name' => 'country',
+                        'type' => 'text',
+                        'country' => true,
+                        'client' => $client->country,
+                        'required' => false
+                    ],
+
+                    'VAT' => (object) [
+                        'name' => 'vat',
+                        'type' => 'text',
+                        'vat' => true,
+                        'value' => $client->vat,
+                        'required' => false
+                    ],
+
+                    '€/kg' => (object) [
+                        'name' => 'weight_cost',
+                        'type' => 'text',
+                        'weight_cost' => true,
+                        'value' => $client->weight_cost,
                         'required' => false
                     ]
                 ];

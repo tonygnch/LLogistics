@@ -13,6 +13,7 @@ class Trip extends Model
     protected $fillable = [
         'driver',
         'client',
+        'weight',
         'truck',
         'trailer',
         'description',

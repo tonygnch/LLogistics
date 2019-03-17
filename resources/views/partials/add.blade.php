@@ -31,6 +31,18 @@
                                         $icon = 'fa-hand-point-right';
                                     if(isset($input->end_point) and $input->end_point)
                                         $icon = 'fa-hand-point-left';
+                                    if(isset($input->cf) and $input->cf)
+                                        $icon = 'fa-vote-yea';
+                                    if(isset($input->city) and $input->city)
+                                        $icon = 'fa-city';
+                                    if(isset($input->country) and $input->country)
+                                        $icon = 'fa-globe-europe';
+                                    if(isset($input->vat) and $input->vat)
+                                        $icon = 'fa-list-ol';
+                                    if(isset($input->weight_cost) and $input->weight_cost)
+                                        $icon = 'fa-weight';
+                                    if(isset($input->weight) and $input->weight)
+                                        $icon = 'fa-weight-hanging';
                                     ?>
                                     <div class="input-group">
                                         <span class="input-group-addon">

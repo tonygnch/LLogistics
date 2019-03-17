@@ -6,6 +6,7 @@ use App\Client;
 use App\Cost;
 use App\Driver;
 use App\InvoiceTrip;
+use App\Setting;
 use App\Trailer;
 use App\Trip;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -24,6 +25,7 @@ class Controller extends BaseController
     public function __construct()
     {
         $this->constants = $this->getConstants();
+        $this->defineSettings();
         View::share('menus', json_decode(json_encode($this->constants['menus']), FALSE));
     }
 
@@ -168,5 +170,17 @@ class Controller extends BaseController
         $nextId = DB::table($table)->max('id') + 1;
 
         return $nextId;
+    }
+
+    /**
+     * Define settings
+     * @return void
+     */
+    public function defineSettings(){
+        $settings = Setting::all();
+
+        foreach($settings as $setting) {
+            define($setting->title, $setting->value);
+        }
     }
 }

@@ -16,6 +16,10 @@ class Client extends Model
         'phone',
         'address',
         'cf',
+        'city',
+        'country',
+        'vat',
+        'weight_cost',
         'deleted'
     ];
 

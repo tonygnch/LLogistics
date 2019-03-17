@@ -107,6 +107,18 @@ return [
                     'route' => 'addDriver'
                 ]
             ]
+        ],
+
+        'company' => [
+            'title' => 'Company',
+            'icon' => 'fa-building',
+            'route' => 'company'
+        ],
+
+        'settings' => [
+            'title' => 'Settings',
+            'icon' => 'fa-cogs',
+            'route' => 'settings'
         ]
     ]
 ];

@@ -4,7 +4,7 @@ $(document).ready(function() {
     });
 
     $('[data-datepicker]').datepicker({
-        format : 'dd-mm-yyyy'
+        format : 'dd/mm/yyyy'
     });
 
     $('input[name="departed"]').on('change', function () {

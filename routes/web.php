@@ -127,6 +127,11 @@ Route::get('invoices/delete/{id}',[
     'uses' => 'InvoiceController@delete'
 ]);
 
+Route::get('invoices/generate-pdf/{invoice}',[
+    'as' => 'generateInvoicePdf',
+    'uses' => 'InvoiceController@generatePdf'
+]);
+
 /**
  * Trips
  */
@@ -188,6 +193,25 @@ Route::get('/ajaxDeleteCost/{id}',[
     'as' => 'ajaxDeleteCost',
     'uses' => 'Common\AjaxController@deleteCost'
 ]);
+
+/**
+ * Settings
+ */
+Route::get('/settings', [
+    'as' => 'settings',
+    'uses' => 'SettingController@index'
+]);
+
+Route::post('/settings', 'SettingController@index');
+
+/**
+ * Company
+ */
+Route::get('/company', [
+    'as' => 'company',
+    'uses' => 'CompanyController@index'
+]);
+Route::post('/company', 'CompanyController@index');
 
 /**
  * Login Stuff

@@ -97,6 +97,13 @@ class TripController extends Controller
                     'required' => true
                 ],
 
+                'Weight' => (object) [
+                    'name' => 'weight',
+                    'type' => 'text',
+                    'weight' => true,
+                    'required' => true
+                ],
+
                 'Description' => (object) [
                     'name' => 'description',
                     'type' => 'text',
@@ -230,6 +237,13 @@ class TripController extends Controller
                         'name' => 'trailer',
                         'type' => 'select',
                         'values' => $trailers,
+                        'required' => true
+                    ],
+
+                    'Weight' => (object) [
+                        'name' => 'weight',
+                        'type' => 'text',
+                        'weight' => true,
                         'required' => true
                     ],
 

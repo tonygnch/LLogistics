@@ -23,8 +23,8 @@
                         </a>
                     </li>
                     @foreach($menus as $menu)
-                        <li class="nav-parent @if(substr($actualLink, 0, strlen(route($menu->route))) == route($menu->route))) nav-expanded nav-active @endif">
-                            <a>
+                        <li class="@if(isset($menu->submenus)) nav-parent @endif @if(substr($actualLink, 0, strlen(route($menu->route))) == route($menu->route))) nav-expanded nav-active @endif">
+                            <a @if(!isset($menu->submenus)) href="{{ route($menu->route) }}" @endif>
                                 <i class="fa {{ $menu->icon }}" aria-hidden="true"></i>
                                 <span>{{ $menu->title }}</span>
                             </a>

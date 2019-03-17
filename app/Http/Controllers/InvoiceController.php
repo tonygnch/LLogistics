@@ -8,10 +8,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
+use App\Company;
 use App\Cost;
 use App\Invoice;
 use App\InvoiceTrip;
+use App\Trip;
 use Illuminate\Http\Request;
+use TCPDF;
 
 class InvoiceController extends Controller
 {
@@ -21,7 +25,8 @@ class InvoiceController extends Controller
      * Index action for invoices
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(){
+    public function index()
+    {
         $data = Invoice::all()->where('deleted', '=', '0');
 
         return view($this->viewPath . 'index', [
@@ -38,7 +43,7 @@ class InvoiceController extends Controller
      */
     public function add(Request $request)
     {
-        if($request->isMethod('POST')){
+        if ($request->isMethod('POST')) {
             $data = $request->post();
             unset($data['_token']);
             unset($data['multiselect']);
@@ -47,22 +52,22 @@ class InvoiceController extends Controller
 
             $invoice = new Invoice();
 
-            foreach($data as $property => $value) {
-                if(!is_array($value))
+            foreach ($data as $property => $value) {
+                if (!is_array($value))
                     $invoice->{$property} = $value;
             }
 
             $invoice->save();
 
-            if(isset($data['costs'])) {
-                foreach($data['costs'] as $cost) {
+            if (isset($data['costs'])) {
+                foreach ($data['costs'] as $cost) {
                     $cost['invoice'] = $invoice->id;
                     $this->createCost($cost);
                 }
             }
 
-            if(isset($data['trips'])) {
-                foreach($data['trips'] as $trip) {
+            if (isset($data['trips'])) {
+                foreach ($data['trips'] as $trip) {
                     $this->createInvoiceTripItem($invoice->id, $trip);
                 }
             }
@@ -73,38 +78,39 @@ class InvoiceController extends Controller
             $trips = $this->getTripsAsObject();
 
             $inputs = [
-                'Number' => (object) [
+                'Number' => (object)[
                     'name' => 'number',
                     'type' => 'text',
                     'number' => true,
                     'required' => true
                 ],
 
-                'Date' => (object) [
+                'Date' => (object)[
                     'name' => 'date',
                     'type' => 'date',
                     'required' => true
                 ],
 
-                'Client' => (object) [
+                'Client' => (object)[
                     'name' => 'client',
                     'type' => 'select',
                     'values' => $clients,
                     'required' => true
                 ],
 
-                'Trips' => (object) [
+                'Place' => (object)[
+                    'name' => 'place',
+                    'type' => 'text',
+                    'address' => true,
+                    'required' => true
+                ],
+
+                'Trips' => (object)[
                     'name' => 'trips[]',
                     'type' => 'multipleSelect',
                     'values' => $trips,
                     'required' => false
                 ]
-//
-//                'CMR' => (object) [
-//                    'name' => 'cmr',
-//                    'type' => 'file',
-//                    'required' => false
-//                ]
             ];
 
             return view($this->viewPath . 'add', [
@@ -130,60 +136,60 @@ class InvoiceController extends Controller
         /** @var Invoice $invoice */
         $invoice = Invoice::find($id);
 
-        if($request->isMethod('POST')){
+        if ($request->isMethod('POST')) {
             $data = $request->post();
             unset($data['_token']);
 
             $data['date'] = date('Y-m-d H:i:s', strtotime($data['date']));
 
-            if(isset($data['costs'])) {
+            if (isset($data['costs'])) {
                 $costs = $data['costs'];
                 unset($data['costs']);
             }
-            if(isset($data['newCosts'])) {
+            if (isset($data['newCosts'])) {
                 $newCosts = $data['newCosts'];
                 unset($data['newCosts']);
             }
-            if(isset($data['trips'])) {
+            if (isset($data['trips'])) {
                 $trips = $data['trips'];
                 unset($data['trips']);
             }
 
             $invoice->update($data);
 
-            if(isset($costs)) {
-                foreach($costs as $key => $values) {
+            if (isset($costs)) {
+                foreach ($costs as $key => $values) {
                     /** @var Cost $cost */
                     $cost = Cost::find($key);
-                    if(!empty($cost)) {
+                    if (!empty($cost)) {
                         $cost->update($values);
                     }
                 }
             }
 
-            if(isset($newCosts)) {
-                foreach($newCosts as $cost) {
+            if (isset($newCosts)) {
+                foreach ($newCosts as $cost) {
                     /** @var array $cost */
                     $cost['invoice'] = $invoice->id;
                     $this->createCost($cost);
                 }
             }
 
-            if(isset($trips)) {
+            if (isset($trips)) {
                 $this->deleteAllInvoiceTrips($invoice->id);
-                foreach($trips as $trip) {
+                foreach ($trips as $trip) {
                     $this->createInvoiceTripItem($invoice->id, $trip);
                 }
             }
 
             return redirect(route('invoices'));
         } else {
-            if(!empty($invoice)){
+            if (!empty($invoice)) {
                 $clients = $this->getClientsAsObject();
                 $trips = $this->getTripsAsObject();
 
                 $inputs = [
-                    'Number' => (object) [
+                    'Number' => (object)[
                         'name' => 'number',
                         'type' => 'text',
                         'value' => $invoice->number,
@@ -191,14 +197,14 @@ class InvoiceController extends Controller
                         'required' => false
                     ],
 
-                    'Date' => (object) [
+                    'Date' => (object)[
                         'name' => 'date',
                         'type' => 'date',
                         'value' => $invoice->date,
                         'required' => true
                     ],
 
-                    'Client' => (object) [
+                    'Client' => (object)[
                         'name' => 'client',
                         'type' => 'select',
                         'values' => $clients,
@@ -206,20 +212,21 @@ class InvoiceController extends Controller
                         'required' => true
                     ],
 
-                    'Trips' => (object) [
+                    'Place' => (object)[
+                        'name' => 'place',
+                        'type' => 'text',
+                        'address' => true,
+                        'value' => $invoice->place,
+                        'required' => true
+                    ],
+
+                    'Trips' => (object)[
                         'name' => 'trips[]',
                         'type' => 'multipleSelect',
                         'check' => InvoiceTrip::all()->where('invoice', '=', $invoice->id),
                         'values' => $trips,
                         'required' => false
                     ]
-
-//                    'CMR' => (object) [
-//                        'name' => 'cmr',
-//                        'type' => 'file',
-//                        'value' => $invoice->cmr,
-//                        'required' => false
-//                    ]
                 ];
 
                 $costs = Cost::all()->where('invoice', '=', $invoice->id)->where('deleted', '=', 0);
@@ -248,10 +255,289 @@ class InvoiceController extends Controller
     {
         /** @var Invoice $invoice */
         $invoice = Invoice::find($id);
-        if(!empty($invoice)) {
+        if (!empty($invoice)) {
             $invoice->delete();
         }
 
         return redirect(route('invoices'));
+    }
+
+    /**
+     * Generate pdf
+     * @return void
+     */
+    public function generatePdf($invoice)
+    {
+
+        $invoice = Invoice::find($invoice);
+        if(!empty($invoice)) {
+            $invoiceTrips = InvoiceTrip::all()->where('invoice', '=', $invoice->id);
+            $trips = array();
+            foreach($invoiceTrips as $invoiceTrip) {
+                /** @var Trip $trip */
+                $trip = Trip::find($invoiceTrip->trip);
+                if(!empty($trip)) {
+                    $tripCosts = Cost::all()->where('trip', '=', $trip->id)->where('deleted', '=', 0);
+                    $totalTripCosts = 0;
+                    foreach($tripCosts as $tripCost)
+                        $totalTripCosts += $tripCost->amount;
+                    $trip->offsetSet('costs', $totalTripCosts);
+                    $trips[] = $trip;
+                }
+            }
+
+            $invoiceCosts = Cost::all()->where('invoice', '=', $invoice->id)->where('deleted', '=', 0);
+
+            $client = Client::find($invoice->client);
+
+            $company = Company::all()->first();
+
+            // create new PDF document
+            $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+            // set document information
+            $pdf->SetCreator(PDF_CREATOR);
+            $pdf->SetAuthor($company->name);
+            $pdf->SetTitle('Invoice');
+            $pdf->SetSubject('Invoice ' . $invoice->number . ' '. $client->name);
+
+            $pdf->setFontSubsetting(true);
+
+            $pdf->setPrintHeader(false);
+            $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+            // set default monospaced font
+            $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+            // set margins
+            $pdf->SetMargins(PDF_MARGIN_LEFT, 10, PDF_MARGIN_RIGHT);
+            $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+            // set auto page breaks
+            $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+            // set image scale factor
+            $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+            // ---------------------------------------------------------
+
+            // add a page
+            $pdf->AddPage();
+
+            $pdf->SetFont('freesans', 'B', 15);
+            $pdf->Write(0, 'Original/Оригинал', '', false, 'C');
+
+            $pdf->Ln(10);
+
+            // set color for background
+            $pdf->SetFillColor(255, 255, 255);
+
+            $pdf->SetFont('freesans', 'B', 10);
+
+            // write client title
+            $pdf->MultiCell(60, 10, 'ПОЛУЧАТЕЛ / CONSIGNEE', 0, 'C', 1, 0, '', '', true, 0, false, true, 10, 'M');
+
+            // write invoice title
+            $pdf->MultiCell(60, 10, 'ФАКТУРА/INVOICE', 0, 'C', 1, 0, '', '', true, 0, false, true, 10, 'M');
+
+            // write the boss title
+            $pdf->MultiCell(60, 10, 'ИЗПЪЛНИТЕЛ / CONSIGNOR', 0, 'C', 1, 1, '', '', true, 0, false, true, 10, 'M');
+
+
+            $pdf->SetFont('freesans', '', 10);
+
+            $clientData =
+                $client->name
+                . "\n" .
+                $client->address
+                . "\n" .
+                $client->cf . ',' . $client->city
+                . "\n" .
+                $client->country
+                . "\n" .
+                "VAT : " . $client->vat;
+
+            // write client data
+            $pdf->MultiCell(70, 50, $clientData, 1, 'L', 1, 0, '', '', true, 0, false, true, 50, 'M');
+
+            $invoiceData =
+                '№ ' . $invoice->number
+                . "\n" .
+                'Дата / Data : ' . date('d.m.Y', strtotime($invoice->date))
+                . "\n" .
+                'Известие към фактура / Invoice Notice №'
+                . "\n" .
+                " "
+                . "\n" .
+                " O Кредитно / Credit"
+                . "\n" .
+                " O Дебитно / Debit";
+
+            // write invoice data
+            $pdf->MultiCell(40, 50, $invoiceData, 1, 'C', 1, 0, '', '', true, 0, false, true, 50, 'M');
+
+            $bossData =
+                $company->name
+                . "\n" .
+                'Town(village): ' . $company->cf . ' , ' . $company['city'] . ' , ' . $company['country']
+                . "\n" .
+                'Street: ' . $company->address
+                . "\n" .
+                "Identification No: " . $company->vat
+                . "\n" .
+                "VAT IN: BG " . $company->vat
+                . "\n" .
+                "Person in change : ";
+
+            // write the boss data
+            $pdf->MultiCell(70, 50, $bossData, 1, 'L', 1, 1, '', '', true, 0, false, true, 50, 'M');
+
+            $pdf->Ln(2);
+
+            $pdf->SetFont('freesans', 'B', 8);
+
+            $costTitle = 'Описание на стоката(услугата)/Основание за издаване на известие '
+                        . "\n" .
+                        'Description of the goods(service)/groundsfor notice issuing';
+
+            //Costs titles
+            $pdf->Cell(10, 15, '№', 1, 0, 'C');
+            $pdf->MultiCell(90, 15, $costTitle, 1, 'C', 1, 0, '', '', true, 0, false, true, 15, 'M');
+            $pdf->Cell(10, 15, 'CMR', 1, 0, 'C');
+            $pdf->MultiCell(20, 15, 'Количество' . "\n" .'Quantity', 1, 'C', 1, 0, '', '', true, 0, false, true, 15, 'M');
+            $pdf->MultiCell(25, 15, 'Единична цена' . "\n" .'Unit Price', 1, 'C', 1, 0, '', '', true, 0, false, true, 15, 'M');
+            $pdf->MultiCell(25, 15, 'Стойност' . "\n" .'Price', 1, 'C', 1, 1, '', '', true, 0, false, true, 15, 'M');
+
+            $pdf->SetFont('freesans', '', 8);
+
+            //Costs
+
+            $itemsHtml = '';
+            $count = 1;
+            $total = 0;
+            foreach($trips as $trip) {
+                $tripCost = $trip->weight * $client->weight_cost + $trip->costs;
+                $itemsHtml .= '
+                        <tr>
+                          <td width="35.5" height="50" align="center">' . $count . '</td>
+                          <td width="318.8">' . $trip->description . '</td>
+                          <td width="35.5" align="center">' . $trip->cmr . '</td>
+                          <td width="70.8" align="center">1</td>
+                          <td width="88.6" align="center">' . number_format($tripCost, 2, '.', '') . '</td>
+                          <td width="88.6" align="center">' . number_format($tripCost, 2, '.', '') . '</td>
+                        </tr>';
+                $total += $tripCost;
+                $count++;
+            }
+
+            foreach($invoiceCosts as $invoiceCost) {
+                $itemsHtml .= '
+                        <tr>
+                          <td width="35.5" height="50" align="center">' . $count . '</td>
+                          <td width="318.8">' . $invoiceCost->description . '</td>
+                          <td width="35.5" align="center">' . '-' . '</td>
+                          <td width="70.8" align="center">1</td>
+                          <td width="88.6" align="center">' . number_format($invoiceCost->amount, 2, '.', '') . '</td>
+                          <td width="88.6" align="center">' . number_format($invoiceCost->amount, 2, '.', '') . '</td>
+                        </tr>';
+                $total += $invoiceCost->amount;
+                $count++;
+            }
+
+            $tbl = '<table cellspacing="0" cellpadding="1" border="0.8">'
+                     . $itemsHtml .
+                    '</table>';
+
+            $pdf->writeHTML($tbl, false, false, false, false, '');
+
+            $pdf->SetFont('freesans', 'B', 10);
+
+            $pdf->Cell(155, 0, 'Totale euro (EU) da pagare:', 1, 0, 'L');
+            $pdf->Cell(25, 0, '€ ' . number_format($total, 2, '.', ''), 1, 1, 'C');
+
+            $pdf->SetFont('freesans', '', 10);
+
+            $pdf->Cell(155, 0, 'Totale lev (BGN) da pagare:', 1, 0, 'L');
+            $pdf->Cell(25, 0, 'lev ' . number_format($total * EUR_BGN, 2, '.', '') , 1, 1, 'C');
+
+            $pdf->SetFont('freesans', 'B', 10);
+
+            $pdf->Cell(155, 0, 'Място на сделката / Place of transaction', 1, 0, 'L');
+            $pdf->Cell(25, 0, $invoice->place, 1, 1, 'C');
+
+            $pdf->SetFont('freesans', 'B, I', 10);
+
+            $pdf->Cell(100, 15, 'Сума за плащане словом/Due sum (in words):', 1, 0, 'C', false, '', 0, false, 'T', 'T');
+            $pdf->SetFont('freesans', 'B', 9);
+            $pdf->Cell(55, 5, 'Данъчна основа / Tax base:', 1, 0, 'L');
+            $pdf->SetFont('freesans', '', 10);
+            $pdf->Cell(25, 5, 'lev ' . number_format($total * EUR_BGN, 2, '.', ''), 1, 1, 'C');
+
+            $pdf->Cell(100, 5, '', 0, 0, 'C', false, '', 0, false, 'T', 'T');
+            $pdf->SetFont('freesans', 'B', 9);
+            $pdf->Cell(55, 5, 'ДДС / VAT 0 %', 1, 0, 'L');
+            $pdf->SetFont('freesans', '', 10);
+            $pdf->Cell(25, 5, '', 1, 1, 'C');
+
+            $pdf->Cell(100, 5, '', 0, 0, 'C', false, '', 0, false, 'T', 'T');
+            $pdf->SetFont('freesans', 'B', 9);
+            $pdf->Cell(55, 5, 'Сума за плащане/Total due sum:', 1, 0, 'L');
+            $pdf->SetFont('freesans', '', 10);
+            $pdf->Cell(25, 5, 'lev ' . number_format($total * EUR_BGN, 2, '.', ''), 1, 1, 'C');
+
+
+            $pdf->SetFont('freesans', '', 9);
+            $bottomLeftText = "Дата на възникване на данъчното събитие на доставката или" . "\n" .
+                "дата на плащане(при аванс)/Date of the tax event of the delivery" . "\n" .
+                "or the day of payment (in advance payment):_____________________" . "\n\n" .
+                "Основание за прилагане на ставка 0 (нула) % / Grounds for" . "\n" .
+                "applying 0 (zero) % stake: чл.21, ал.2 от ЗДДС" . "\n" .
+                "Основание за неначисляване на данък/Grounds for non imposing" . "\n" .
+                "tax:" . "\n\n\n\n" .
+                "Получател / Recepient:_______________________________";
+            $pdf->MultiCell(100, 40, $bottomLeftText, 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
+
+            $pdf->SetFont('freesans', 'B', 10);
+            $pdf->MultiCell(100, 5, "Начин на плащане: Terms of payment:", 0, 'L', 1, 1, '', '', true, 0, false, true, 100, 'T');
+
+            $pdf->SetFont('freesans', 'B', 10);
+            $pdf->SetTextColor(0, 91, 255);
+
+            $pdf->MultiCell(100, 6, '', 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
+            $pdf->MultiCell(100, 6, "IBAN BGN : " . $company->iban_bgn, 0, 'L', 1, 1, '', '', true, 0, false, true, 100, 'T');
+
+            $pdf->MultiCell(100, 6, '', 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
+            $pdf->MultiCell(100, 6, "IBAN EUR : " . $company->iban_eur , 0, 'L', 1, 1, '', '', true, 0, false, true, 100, 'T');
+
+            $pdf->MultiCell(100, 6, '', 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
+            $pdf->MultiCell(25, 6, "Банка/Bank:", 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
+
+            $pdf->SetTextColor();
+
+            $pdf->MultiCell(50, 6, $company->bank, 0, 'L', 1, 1, '', '', true, 0, false, true, 100, 'T');
+
+            $pdf->MultiCell(100, 6, '', 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
+            $pdf->MultiCell(25, 6, date('d.m.Y', strtotime($invoice->date)), 0, 'L', 1, 1, '', '', true, 0, false, true, 100, 'T');
+
+            $pdf->MultiCell(100, 6, '', 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
+            $pdf->MultiCell(25, 6, 'SWIFT', 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
+            $pdf->MultiCell(25, 8, $company->swift, 0, 'L', 1, 1, '', '', true, 0, false, true, 100, 'T');
+
+            $pdf->MultiCell(100, 6, '', 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
+            $pdf->MultiCell(70, 11, "O ПО БАНКОВ ПЪТ/BANK TRANSFER", 0, 'L', 1, 1, '', '', true, 0, false, true, 100, 'T');
+
+            $pdf->SetFont('freesans', '', 9);
+
+            $pdf->MultiCell(100, 6, '', 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
+            $pdf->MultiCell(100, 6, "Съставил / Issued by:_________________________", 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
+
+            // reset pointer to the last page
+            $pdf->lastPage();
+
+            // ---------------------------------------------------------
+
+            //Close and output PDF document
+            $pdf->Output('example_017.pdf', 'I');
+        }
     }
 }
