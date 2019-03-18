@@ -76,7 +76,7 @@ class InvoiceController extends Controller
         } else {
             $clients = $this->getClientsAsObject();
             $trips = $this->getTripsAsObject();
-            $lastInvoiceNumber = Invoice::all()->sortByDesc('number')->first()->number + 1;
+            $lastInvoiceNumber = Invoice::all()->sortByDesc('number')->where('deleted', '=', '0')->first()->number + 1;
 
             $inputs = [
                 'Number' => (object)[
