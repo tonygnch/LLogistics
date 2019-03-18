@@ -14,6 +14,7 @@
                                 <th>Client</th>
                                 <th>Driver</th>
                                 <th>Truck</th>
+                                <th>Trailer</th>
                                 <th>Description</th>
                                 <th>Departed</th>
                                 <th>Arrived</th>
@@ -27,10 +28,11 @@
                                 <tr>
                                     <td>@if(!empty($d->client())) {{ $d->client()->name }} @endif</td>
                                     <td>@if(!empty($d->driver())) {{ $d->driver()->name }} {{$d->driver()->surname}} @endif</td>
-                                    <td>{{ $d->truck }} - {{ $d->trailer }}</td>
+                                    <td>@if(!empty($d->truck())) {{ $d->truck()->plate }} - {{ $d->truck()->make }} @endif</td>
+                                    <td>@if(!empty($d->trailer())) {{ $d->trailer()->plate }} - {{ $d->trailer()->make }} @endif</td>
                                     <td>{{ $d->description }}</td>
-                                    <td>{{ date('Y-m-d', strtotime($d->departed)) }}</td>
-                                    <td>{{ date('Y-m-d', strtotime($d->arrived)) }}</td>
+                                    <td>{{ date('d M Y', strtotime($d->departed)) }}</td>
+                                    <td>{{ date('d M Y', strtotime($d->arrived)) }}</td>
                                     <td>{{ $d->start_point }}</td>
                                     <td>{{ $d->end_point }}</td>
                                     <td>{{ $d->distance }}</td>

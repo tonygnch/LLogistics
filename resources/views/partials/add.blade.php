@@ -123,11 +123,11 @@
                 <label class="costsSeparator col-sm-3 control-label" hidden></label>
                 <div class="col-md-2">
                     <label class="col-md-2 control-label">Amount</label>
-                    <input placeholder="0" type="text" name="costs[costsID][amount]" class="form-control">
+                    <input placeholder="0" type="text" name="costs[costsID][amount]" data-number="number" class="form-control" required>
                 </div>
                 <div class="col-md-6">
                     <label class="col-md-2 control-label">Description</label>
-                    <input placeholder="Input some text..." type="text" name="costs[costsID][description]" class="form-control">
+                    <input placeholder="Input item description" type="text" name="costs[costsID][description]" class="form-control" required>
                 </div>
                 <div class="col-md-1">
                     {{--<label class="col-md-2 control-label">&nbsp;</label>--}}

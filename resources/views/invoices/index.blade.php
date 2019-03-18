@@ -21,7 +21,7 @@
                             @foreach($data as $d)
                                 <tr>
                                     <td>{{ $d->number }}</td>
-                                    <td>{{ date('d/m/Y', strtotime($d->date)) }}</td>
+                                    <td>{{ date('d M Y', strtotime($d->date)) }}</td>
                                     <td>{{ $d->client()->name }}</td>
                                     <td class="actions">
                                         <a href="{{ route('generateInvoicePdf', $d->id) }}"><i class="fas fa-file-invoice fa-2x" style="color: green;"></i></a>

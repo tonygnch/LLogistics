@@ -114,6 +114,7 @@
 					opts = {};
 
 				var pluginOptions = $this.data('plugin-options');
+                console.log(pluginOptions);
 				if (pluginOptions)
 					opts = pluginOptions;
 

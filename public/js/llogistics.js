@@ -1,10 +1,32 @@
 $(document).ready(function() {
-    $('input[data-number="number"]').on('keyup', function (e) {
-        this.value = this.value.replace(/[^0-9]/, '')
-    });
+    let numberValue = function () {
+        $('input[data-number="number"]').on('keyup', function (e) {
+            this.value = this.value.replace(/[^0-9]/, '')
+        });
+    };
+
+    let deleteCost = function () {
+        $('.delete-cost').on('click', function () {
+            let id = $(this).data('id');
+
+            $.get($(this).data('url'));
+
+            $('div.costItem[data-id="' + id +'"]').remove();
+
+            if($('.costsList').html().trim().length == 0) {
+                $('.noCostsTitle').hide().show();
+            }
+
+            $('.costItem').first().find('.costsSeparator').hide();
+        });
+    };
+
+    numberValue();
+
+    deleteCost();
 
     $('[data-datepicker]').datepicker({
-        format : 'dd-mm-yy'
+        format : 'dd M yyyy'
     });
 
     $('input[name="departed"]').on('change', function () {
@@ -37,26 +59,9 @@ $(document).ready(function() {
         cost = cost.replace(/costsID/g, costID);
         $('.costsList').show().append(cost);
 
+        numberValue();
         deleteCost();
     });
-
-    let deleteCost = function () {
-        $('.delete-cost').on('click', function () {
-            let id = $(this).data('id');
-
-            $.get($(this).data('url'));
-
-            $('div.costItem[data-id="' + id +'"]').remove();
-
-            if($('.costsList').html().trim().length == 0) {
-                $('.noCostsTitle').hide().show();
-            }
-
-            $('.costItem').first().find('.costsSeparator').hide();
-        });
-    };
-
-    deleteCost();
 
     $('select[name="driver"]').change(function () {
         $.get('/ajaxGetDriverTruck/' + $(this).val(), function (response) {

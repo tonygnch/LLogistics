@@ -104,7 +104,7 @@ class InvoiceController extends Controller
                     'name' => 'place',
                     'type' => 'text',
                     'address' => true,
-                    'required' => true
+                    'required' => false
                 ],
 
                 'Trips' => (object)[
@@ -219,7 +219,7 @@ class InvoiceController extends Controller
                         'type' => 'text',
                         'address' => true,
                         'value' => $invoice->place,
-                        'required' => true
+                        'required' => false
                     ],
 
                     'Trips' => (object)[

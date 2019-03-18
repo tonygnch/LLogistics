@@ -37,9 +37,37 @@ class Trip extends Model
         }
     }
 
+    /**
+     * Get driver object
+     * @return Driver|null
+     */
     public function driver(){
         if($this->driver) {
             return Driver::find($this->driver);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get truck object
+     * @return Truck|null
+     */
+    public function truck(){
+        if($this->truck) {
+            return Truck::find($this->truck);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get trailer object
+     * @return Trailer|null
+     */
+    public function trailer(){
+        if($this->trailer) {
+            return Trailer::find($this->trailer);
         } else {
             return null;
         }
