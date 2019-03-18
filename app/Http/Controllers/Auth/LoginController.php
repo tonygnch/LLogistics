@@ -52,11 +52,29 @@ class LoginController extends Controller
      */
     public function login(Request $request) {
         if($request->isMethod("POST")) {
-//            $data = $request->post();
-//            $user = DB::selectOne('SELECT * FROM `users` WHERE `username` = "' . $data['username'] . '"');
-            return redirect('/');
-
+            $data = $request->post();
+            $user = DB::selectOne('SELECT * FROM `admin` WHERE `username` = "' . $data['username'] . '"');
+            if(!empty($user)) {
+                $check = password_verify($data['pwd'], $user->password);
+                if($check) {
+                    $_SESSION['user'] = $user->id;
+                    return redirect('/');
+                }
+                else
+                    return redirect(route('login'));
+            } else {
+                return redirect(route('login'));
+            }
         }
         return \view($this->viewPath . 'login', ['title' => 'LogIn']);
+    }
+
+    /**
+     * Logout user
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function logout() {
+        unset($_SESSION['user']);
+        return redirect(route('login'));
     }
 }

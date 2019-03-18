@@ -11,213 +11,215 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+//Route::group(['middleware' => 'auth'], function () {
+    Route::get('/welcome', function () {
+        return view('welcome');
+    })->middleware('auth');
 
-Route::get('/ajaxGetLastId/{table}', 'Common\AjaxController@getTableLastId');
+    Route::get('/ajaxGetLastId/{table}', 'Common\AjaxController@getTableLastId');
 
-Route::get('/', [
-    'as' => 'main',
-    'uses' => 'Home\HomeController@index'
-]);
+    Route::get('/', [
+        'as' => 'main',
+        'uses' => 'Home\HomeController@index'
+    ]);
 
-/**
- * Ajax
- */
-Route::get('/ajaxGetDriverTruck/{driver}', 'Common\AjaxController@getDriverTruck');
-Route::get('/ajaxGetTruckTrailer/{truck}', 'Common\AjaxController@getTruckTrailer');
+    /**
+     * Ajax
+     */
+    Route::get('/ajaxGetDriverTruck/{driver}', 'Common\AjaxController@getDriverTruck');
+    Route::get('/ajaxGetTruckTrailer/{truck}', 'Common\AjaxController@getTruckTrailer');
 
-/**
- * Trucks
- */
+    /**
+     * Trucks
+     */
 
-Route::get('trucks',[
-    'as' => 'trucks',
-    'uses' => 'TruckController@index'
-]);
+    Route::get('trucks',[
+        'as' => 'trucks',
+        'uses' => 'TruckController@index'
+    ]);
 
-Route::get('trucks/add',[
-    'as' => 'addTruck',
-    'uses' => 'TruckController@add'
-]);
-Route::post('trucks/add', 'TruckController@add');
+    Route::get('trucks/add',[
+        'as' => 'addTruck',
+        'uses' => 'TruckController@add'
+    ]);
+    Route::post('trucks/add', 'TruckController@add');
 
-Route::get('trucks/modify/{id}',[
-    'as' => 'modifyTruck',
-    'uses' => 'TruckController@modify'
-]);
-Route::post('trucks/modify/{id}', 'TruckController@modify');
+    Route::get('trucks/modify/{id}',[
+        'as' => 'modifyTruck',
+        'uses' => 'TruckController@modify'
+    ]);
+    Route::post('trucks/modify/{id}', 'TruckController@modify');
 
-Route::get('trucks/delete/{id}',[
-    'as' => 'deleteTruck',
-    'uses' => 'TruckController@delete'
-]);
+    Route::get('trucks/delete/{id}',[
+        'as' => 'deleteTruck',
+        'uses' => 'TruckController@delete'
+    ]);
 
 
-/**
- * Trailers
- */
+    /**
+     * Trailers
+     */
 
-Route::get('trailers',[
-    'as' => 'trailers',
-    'uses' => 'TrailerController@index'
-]);
+    Route::get('trailers',[
+        'as' => 'trailers',
+        'uses' => 'TrailerController@index'
+    ]);
 
-Route::get('trailers/add',[
-    'as' => 'addTrailer',
-    'uses' => 'TrailerController@add'
-]);
-Route::post('trailers/add', 'TrailerController@add');
+    Route::get('trailers/add',[
+        'as' => 'addTrailer',
+        'uses' => 'TrailerController@add'
+    ]);
+    Route::post('trailers/add', 'TrailerController@add');
 
-Route::get('trailers/modify/{id}',[
-    'as' => 'modifyTrailer',
-    'uses' => 'TrailerController@modify'
-]);
-Route::post('trailers/modify/{id}', 'TrailerController@modify');
+    Route::get('trailers/modify/{id}',[
+        'as' => 'modifyTrailer',
+        'uses' => 'TrailerController@modify'
+    ]);
+    Route::post('trailers/modify/{id}', 'TrailerController@modify');
 
-Route::get('trailers/delete/{id}',[
-    'as' => 'deleteTrailer',
-    'uses' => 'TrailerController@delete'
-]);
+    Route::get('trailers/delete/{id}',[
+        'as' => 'deleteTrailer',
+        'uses' => 'TrailerController@delete'
+    ]);
 
-/**
- * Clients
- */
+    /**
+     * Clients
+     */
 
-Route::get('clients',[
-    'as' => 'clients',
-    'uses' => 'ClientController@index'
-]);
+    Route::get('clients',[
+        'as' => 'clients',
+        'uses' => 'ClientController@index'
+    ]);
 
-Route::get('clients/add',[
-    'as' => 'addClient',
-    'uses' => 'ClientController@add'
-]);
-Route::post('clients/add', 'ClientController@add');
+    Route::get('clients/add',[
+        'as' => 'addClient',
+        'uses' => 'ClientController@add'
+    ]);
+    Route::post('clients/add', 'ClientController@add');
 
-Route::get('clients/modify/{id}',[
-    'as' => 'modifyClient',
-    'uses' => 'ClientController@modify'
-]);
-Route::post('clients/modify/{id}', 'ClientController@modify');
+    Route::get('clients/modify/{id}',[
+        'as' => 'modifyClient',
+        'uses' => 'ClientController@modify'
+    ]);
+    Route::post('clients/modify/{id}', 'ClientController@modify');
 
-Route::get('clients/delete/{id}',[
-    'as' => 'deleteClient',
-    'uses' => 'ClientController@delete'
-]);
+    Route::get('clients/delete/{id}',[
+        'as' => 'deleteClient',
+        'uses' => 'ClientController@delete'
+    ]);
 
-/**
- * Invoices
- */
+    /**
+     * Invoices
+     */
 
-Route::get('invoices',[
-    'as' => 'invoices',
-    'uses' => 'InvoiceController@index'
-]);
+    Route::get('invoices',[
+        'as' => 'invoices',
+        'uses' => 'InvoiceController@index'
+    ]);
 
-Route::get('invoices/add',[
-    'as' => 'addInvoice',
-    'uses' => 'InvoiceController@add'
-]);
-Route::post('invoices/add', 'InvoiceController@add');
+    Route::get('invoices/add',[
+        'as' => 'addInvoice',
+        'uses' => 'InvoiceController@add'
+    ]);
+    Route::post('invoices/add', 'InvoiceController@add');
 
-Route::get('invoices/modify/{id}',[
-    'as' => 'modifyInvoice',
-    'uses' => 'InvoiceController@modify'
-]);
-Route::post('invoices/modify/{id}', 'InvoiceController@modify');
+    Route::get('invoices/modify/{id}',[
+        'as' => 'modifyInvoice',
+        'uses' => 'InvoiceController@modify'
+    ]);
+    Route::post('invoices/modify/{id}', 'InvoiceController@modify');
 
-Route::get('invoices/delete/{id}',[
-    'as' => 'deleteInvoice',
-    'uses' => 'InvoiceController@delete'
-]);
+    Route::get('invoices/delete/{id}',[
+        'as' => 'deleteInvoice',
+        'uses' => 'InvoiceController@delete'
+    ]);
 
-Route::get('invoices/generate-pdf/{invoice}',[
-    'as' => 'generateInvoicePdf',
-    'uses' => 'InvoiceController@generatePdf'
-]);
+    Route::get('invoices/generate-pdf/{invoice}',[
+        'as' => 'generateInvoicePdf',
+        'uses' => 'InvoiceController@generatePdf'
+    ]);
 
-/**
- * Trips
- */
+    /**
+     * Trips
+     */
 
-Route::get('trips',[
-    'as' => 'trips',
-    'uses' => 'TripController@index'
-]);
+    Route::get('trips',[
+        'as' => 'trips',
+        'uses' => 'TripController@index'
+    ]);
 
-Route::get('trips/add',[
-    'as' => 'addTrip',
-    'uses' => 'TripController@add'
-]);
+    Route::get('trips/add',[
+        'as' => 'addTrip',
+        'uses' => 'TripController@add'
+    ]);
 
-Route::post('trips/add', 'TripController@add');
+    Route::post('trips/add', 'TripController@add');
 
-Route::get('trips/modify/{id}',[
-    'as' => 'modifyTrip',
-    'uses' => 'TripController@modify'
-]);
-Route::post('trips/modify/{id}', 'TripController@modify');
+    Route::get('trips/modify/{id}',[
+        'as' => 'modifyTrip',
+        'uses' => 'TripController@modify'
+    ]);
+    Route::post('trips/modify/{id}', 'TripController@modify');
 
-Route::get('trips/delete/{id}',[
-    'as' => 'deleteTrip',
-    'uses' => 'TripController@delete'
-]);
+    Route::get('trips/delete/{id}',[
+        'as' => 'deleteTrip',
+        'uses' => 'TripController@delete'
+    ]);
 
-/**
- * Drivers
- */
+    /**
+     * Drivers
+     */
 
-Route::get('drivers',[
-    'as' => 'drivers',
-    'uses' => 'DriverController@index'
-]);
+    Route::get('drivers',[
+        'as' => 'drivers',
+        'uses' => 'DriverController@index'
+    ]);
 
-Route::get('drivers/add',[
-    'as' => 'addDriver',
-    'uses' => 'DriverController@add'
-]);
-Route::post('drivers/add', 'DriverController@add');
+    Route::get('drivers/add',[
+        'as' => 'addDriver',
+        'uses' => 'DriverController@add'
+    ]);
+    Route::post('drivers/add', 'DriverController@add');
 
-Route::get('drivers/modify/{id}',[
-    'as' => 'modifyDriver',
-    'uses' => 'DriverController@modify'
-]);
-Route::post('drivers/modify/{id}', 'DriverController@modify');
+    Route::get('drivers/modify/{id}',[
+        'as' => 'modifyDriver',
+        'uses' => 'DriverController@modify'
+    ]);
+    Route::post('drivers/modify/{id}', 'DriverController@modify');
 
-Route::get('drivers/delete/{id}',[
-    'as' => 'deleteDriver',
-    'uses' => 'DriverController@delete'
-]);
+    Route::get('drivers/delete/{id}',[
+        'as' => 'deleteDriver',
+        'uses' => 'DriverController@delete'
+    ]);
 
-/**
- * Cost
- */
+    /**
+     * Cost
+     */
 
-Route::get('/ajaxDeleteCost/{id}',[
-    'as' => 'ajaxDeleteCost',
-    'uses' => 'Common\AjaxController@deleteCost'
-]);
+    Route::get('/ajaxDeleteCost/{id}',[
+        'as' => 'ajaxDeleteCost',
+        'uses' => 'Common\AjaxController@deleteCost'
+    ]);
 
-/**
- * Settings
- */
-Route::get('/settings', [
-    'as' => 'settings',
-    'uses' => 'SettingController@index'
-]);
+    /**
+     * Settings
+     */
+    Route::get('/settings', [
+        'as' => 'settings',
+        'uses' => 'SettingController@index'
+    ]);
 
-Route::post('/settings', 'SettingController@index');
+    Route::post('/settings', 'SettingController@index');
 
-/**
- * Company
- */
-Route::get('/company', [
-    'as' => 'company',
-    'uses' => 'CompanyController@index'
-]);
-Route::post('/company', 'CompanyController@index');
+    /**
+     * Company
+     */
+    Route::get('/company', [
+        'as' => 'company',
+        'uses' => 'CompanyController@index'
+    ]);
+    Route::post('/company', 'CompanyController@index');
+//})->middleware('auth');
 
 /**
  * Login Stuff
@@ -229,6 +231,12 @@ Route::get('login', [
     'uses' => 'Auth\LoginController@login'
 ]);
 Route::post('login', 'Auth\LoginController@login');
+
+//Logout
+Route::get('logout', [
+    'as' => 'logout',
+    'uses' => 'Auth\LoginController@logout'
+]);
 
 // Sign up
 Route::get('signup', [
