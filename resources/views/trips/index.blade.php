@@ -21,6 +21,7 @@
                                 <th>Start Point</th>
                                 <th>End Point</th>
                                 <th>Distance</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>

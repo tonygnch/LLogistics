@@ -25,9 +25,21 @@ class Controller extends BaseController
 
     public function __construct()
     {
+        $oneWeekAgo = date("Y-m-d", strtotime( "previous monday" ));
+
         $this->constants = $this->getConstants();
         $this->defineSettings();
+        $driversCount = Driver::all()->where('deleted', '=', 0)->count();
+        $clientsCount = Client::all()->where('client', '=', 0)->count();
+        $tripsCount = Trip::all()->where('departed', '>', $oneWeekAgo)->where('deleted', '=', 0)->count();
+
+        $homeTrips = Trip::all()->where('departed', '>', $oneWeekAgo)->where('deleted', '=', 0);
+
         View::share('menus', json_decode(json_encode($this->constants['menus']), FALSE));
+        View::share('driversCount', $driversCount);
+        View::share('clientsCount', $clientsCount);
+        View::share('tripsCount', $tripsCount);
+        View::share('homeTrips', $homeTrips);
     }
 
     public function getConstants() {
