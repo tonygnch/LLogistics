@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
      */
     Route::get('/ajaxGetDriverTruck/{driver}', 'Common\AjaxController@getDriverTruck');
     Route::get('/ajaxGetTruckTrailer/{truck}', 'Common\AjaxController@getTruckTrailer');
+    Route::get('/ajaxGetClientTrips/{client}', 'Common\AjaxController@getClientTrips');
 
     /**
      * Trucks

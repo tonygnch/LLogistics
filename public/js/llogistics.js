@@ -21,9 +21,23 @@ $(document).ready(function() {
         });
     };
 
+    let loadClientTrips = function () {
+        $.get('/ajaxGetClientTrips/' + $('select[name="client"]').val(), function (response) {
+            var selects = '';
+            $.each(response, function () {
+                selects += '<option value="' + this.id + '">' + this.client + ' | ' + this.route + '</option>'
+            });
+
+            $('select[name="trips[]"]').html(selects);
+            $('select[name="trips[]"]').multiselect('destroy').multiselect();
+        })
+    };
+
     numberValue();
 
     deleteCost();
+
+    loadClientTrips();
 
     $('[data-datepicker]').datepicker({
         format : 'dd M yyyy'
@@ -81,5 +95,9 @@ $(document).ready(function() {
         $.get('/ajaxGetTruckTrailer/' + $(this).val(), function (response) {
             $('select[name="trailer"]').val(response).multiselect('refresh');
         });
+    });
+
+    $('select[name="client"]').change(function () {
+        loadClientTrips()
     });
 });

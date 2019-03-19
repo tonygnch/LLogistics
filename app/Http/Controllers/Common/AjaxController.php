@@ -9,9 +9,11 @@
 namespace App\Http\Controllers\Common;
 
 
+use App\Client;
 use App\Cost;
 use App\Driver;
 use App\Http\Controllers\Controller;
+use App\Trip;
 use App\Truck;
 use Illuminate\Support\Facades\DB;
 
@@ -55,5 +57,27 @@ class AjaxController extends Controller
     public function getTruckTrailer($truck) {
         $truck = Truck::find($truck);
         return $truck->trailer;
+    }
+
+    /**
+     * Get client trips
+     * @param int $client
+     * @return string
+     */
+    public function getClientTrips($client) {
+        $client = Client::find($client);
+        $trips = Trip::all()->where('client', '=', $client->id)->where('deleted', '=', 0);
+        $tripsArr = array();
+        if(!empty($trips) and !empty($client)){
+            foreach($trips as $trip) {
+                error_log($trips);
+                $tripsArr[$trip->id] = [
+                    'id' => $trip->id,
+                    'client' => $client->name,
+                    'route' => $trip->start_point . ' - ' . $trip->end_point
+                ];
+            }
+        }
+        return $tripsArr;
     }
 }
