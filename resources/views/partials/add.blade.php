@@ -74,7 +74,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </span>
-                                        <input placeholder="{{ $label }}" type="text" name="{{ $input->name }}"  data-plugin-datepicker="" class="form-control" @if($input->required) required @endif>
+                                        <input placeholder="{{ $label }}" type="text" name="{{ $input->name }}"  data-datepicker="" class="form-control" @if($input->required) required @endif>
                                     </div>
                                 @elseif($input->type == 'file')
                                     <div class="fileupload fileupload-new" data-provides="fileupload">

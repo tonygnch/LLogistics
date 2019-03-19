@@ -83,7 +83,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </span>
-                                        <input placeholder="{{ $label }}" type="text" name="{{ $input->name }}" data-datepicker="" data-plugin-options="{ format : 'mm-dd-yyyy' }" value="{{ date('d M Y', strtotime($data->{$input->name})) }}" class="form-control">
+                                        <input placeholder="{{ $label }}" type="text" name="{{ $input->name }}" data-datepicker="" value="{{ date('d M Y', strtotime($data->{$input->name})) }}" class="form-control">
                                     </div>
                                 @elseif($input->type == 'file')
                                     <div class="fileupload fileupload-new" data-provides="fileupload">
