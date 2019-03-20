@@ -111,7 +111,7 @@ class ClientController extends Controller
                     'name' => 'weight_cost',
                     'type' => 'text',
                     'weight_cost' => true,
-                    'required' => false
+                    'required' => true
                 ]
             ];
 
@@ -213,7 +213,7 @@ class ClientController extends Controller
                         'type' => 'text',
                         'weight_cost' => true,
                         'value' => $client->weight_cost,
-                        'required' => false
+                        'required' => true
                     ]
                 ];
 
