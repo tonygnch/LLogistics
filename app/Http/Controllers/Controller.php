@@ -30,7 +30,7 @@ class Controller extends BaseController
         $this->constants = $this->getConstants();
         $this->defineSettings();
         $driversCount = Driver::all()->where('deleted', '=', 0)->count();
-        $clientsCount = Client::all()->where('client', '=', 0)->count();
+        $clientsCount = Client::all()->where('deleted', '=', 0)->count();
         $tripsCount = Trip::all()->where('departed', '>', $oneWeekAgo)->where('deleted', '=', 0)->count();
 
         $homeTrips = Trip::all()->where('departed', '>', $oneWeekAgo)->where('deleted', '=', 0);
