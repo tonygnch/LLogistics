@@ -3,12 +3,12 @@
 return [
     'trucks' => [
         'makes' => [
-            "MAN", "Volvo", "Daf", "Scania", "Renault", "Mercedes-Benz"
+            "MAN", "Scania", "Iveco", "Volvo", "Daf", "Scania", "Renault", "Mercedes-Benz"
         ]
     ],
     'trailers' => [
         'makes' => [
-            "DE Angelis", "Pavelli", "ZORZI"
+            "Menci", "Krone", "DE Angelis", "Pavelli", "ZORZI"
         ]
     ],
 
