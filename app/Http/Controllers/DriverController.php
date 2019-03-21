@@ -154,4 +154,20 @@ class DriverController extends Controller
             }
         }
     }
+
+    /**
+     * Delete action for drivers
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function delete($id)
+    {
+        /** @var Driver $driver */
+        $driver = Driver::find($id);
+        if(!empty($driver)) {
+            $driver->delete();
+        }
+
+        return redirect(route('drivers'));
+    }
 }
