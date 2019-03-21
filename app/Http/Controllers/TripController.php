@@ -56,10 +56,13 @@ class TripController extends Controller
 
             $trip->save();
 
-            foreach($data['costs'] as $cost) {
-                $cost['trip'] = $trip->id;
-                $this->createCost($cost);
+            if(isset($data['costs'])) {
+                foreach($data['costs'] as $cost) {
+                    $cost['trip'] = $trip->id;
+                    $this->createCost($cost);
+                }
             }
+
 
             return redirect(route('trips'));
         } else {
