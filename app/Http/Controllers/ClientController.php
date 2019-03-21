@@ -107,6 +107,27 @@ class ClientController extends Controller
                     'required' => false
                 ],
 
+                'IBAN' => (object) [
+                    'name' => 'iban',
+                    'type' => 'text',
+                    'iban' => true,
+                    'required' => false
+                ],
+
+                'Swift' => (object) [
+                    'name' => 'swift',
+                    'type' => 'text',
+                    'swift' => true,
+                    'required' => false
+                ],
+
+                'Bank' => (object) [
+                    'name' => 'bank',
+                    'type' => 'text',
+                    'bank' => true,
+                    'required' => false
+                ],
+
                 '€/kg' => (object) [
                     'name' => 'weight_cost',
                     'type' => 'text',
@@ -205,6 +226,30 @@ class ClientController extends Controller
                         'type' => 'text',
                         'vat' => true,
                         'value' => $client->vat,
+                        'required' => false
+                    ],
+
+                    'IBAN' => (object) [
+                        'name' => 'iban',
+                        'type' => 'text',
+                        'iban' => true,
+                        'value' => $client->iban,
+                        'required' => false
+                    ],
+
+                    'Swift' => (object) [
+                        'name' => 'swift',
+                        'type' => 'text',
+                        'swift' => true,
+                        'value' => $client->swift,
+                        'required' => false
+                    ],
+
+                    'Bank' => (object) [
+                        'name' => 'bank',
+                        'type' => 'text',
+                        'bank' => true,
+                        'value' => $client->bank,
                         'required' => false
                     ],
 

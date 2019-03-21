@@ -19,6 +19,9 @@ class Client extends Model
         'city',
         'country',
         'vat',
+        'iban',
+        'swift',
+        'bank',
         'weight_cost',
         'deleted'
     ];

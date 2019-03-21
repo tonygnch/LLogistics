@@ -40,6 +40,10 @@
                                             $icon = 'fa-globe-europe';
                                         if(isset($input->vat) and $input->vat)
                                             $icon = 'fa-list-ol';
+                                        if(isset($input->bank) and $input->bank)
+                                            $icon = 'fa-university';
+                                        if(isset($input->swift) and $input->swift)
+                                            $icon = 'fa-money-check';
                                         if(isset($input->weight_cost) and $input->weight_cost)
                                             $icon = 'fa-weight';
                                         if(isset($input->weight) and $input->weight)
