@@ -122,15 +122,15 @@
             <div class="costItem" data-id="costsID">
                 <label class="costsSeparator col-sm-3 control-label" hidden></label>
                 <div class="col-md-2">
-                    <label class="col-md-2 control-label">Price</label>
+                    <label class="col-md-2 control-label no-left-padding">Price</label>
                     <input placeholder="0" type="text" name="costs[costsID][price]" data-number="number" class="form-control" required>
                 </div>
                 <div class="col-md-4">
-                    <label class="col-md-2 control-label">Description</label>
+                    <label class="col-md-2 control-label no-left-padding">Description</label>
                     <input placeholder="Input item description" type="text" name="costs[costsID][description]" class="form-control" required>
                 </div>
                 <div class="col-md-2">
-                    <label class="col-md-2 control-label">Amount</label>
+                    <label class="col-md-2 control-label no-left-padding">Amount</label>
                     <input placeholder="0" type="text" name="newCosts[costsID][amount]" data-number="number" value="1" class="form-control" required>
                 </div>
                 <div class="col-md-1">
