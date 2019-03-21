@@ -49,6 +49,9 @@ class InvoiceController extends Controller
             unset($data['multiselect']);
 
             $data['date'] = date('Y-m-d H:i:s', strtotime($data['date']));
+            if(isset($data['due_date'])) {
+                $data['due_date'] = date('Y-m-d H:i:s', strtotime($data['due_date']));
+            }
 
             $invoice = new Invoice();
 
@@ -96,11 +99,25 @@ class InvoiceController extends Controller
                     'required' => true
                 ],
 
+                'Payment Due Date' => (object) [
+                    'name' => 'due_date',
+                    'type' => 'date',
+                    'required' => true,
+                ],
+
                 'Client' => (object)[
                     'name' => 'client',
                     'type' => 'select',
                     'values' => $clients,
                     'required' => true
+                ],
+
+                'CMR' => (object) [
+                    'name' => 'cmr',
+                    'type' => 'text',
+                    'number' => 'number',
+                    'cmr' => true,
+                    'required' => false
                 ],
 
                 'Place' => (object)[
@@ -146,6 +163,9 @@ class InvoiceController extends Controller
             unset($data['_token']);
 
             $data['date'] = date('Y-m-d H:i:s', strtotime($data['date']));
+            if(isset($data['due_date'])) {
+                $data['due_date'] = date('Y-m-d H:i:s', strtotime($data['due_date']));
+            }
 
             if (isset($data['costs'])) {
                 $costs = $data['costs'];
@@ -209,12 +229,28 @@ class InvoiceController extends Controller
                         'required' => true
                     ],
 
+                    'Payment Due Date' => (object) [
+                        'name' => 'due_date',
+                        'type' => 'date',
+                        'value' => $invoice->due_date,
+                        'required' => true,
+                    ],
+
                     'Client' => (object)[
                         'name' => 'client',
                         'type' => 'select',
                         'values' => $clients,
                         'check' => $invoice->client,
                         'required' => true
+                    ],
+
+                    'CMR' => (object) [
+                        'name' => 'cmr',
+                        'type' => 'text',
+                        'number' => 'number',
+                        'cmr' => true,
+                        'value' => $invoice->cmr,
+                        'required' => false
                     ],
 
                     'Place' => (object)[
@@ -426,7 +462,7 @@ class InvoiceController extends Controller
                         <tr>
                           <td width="35.5" height="50" align="center">' . $count . '</td>
                           <td width="318.8">' . $trip->description . '</td>
-                          <td width="35.5" align="center">' . $trip->cmr . '</td>
+                          <td width="35.5" align="center">' . $invoice->cmr . '</td>
                           <td width="70.8" align="center">1</td>
                           <td width="88.6" align="center">' . number_format($tripCost, 2, '.', '') . '</td>
                           <td width="88.6" align="center">' . number_format($tripCost, 2, '.', '') . '</td>
@@ -522,7 +558,12 @@ class InvoiceController extends Controller
             $pdf->MultiCell(50, 6, $company->bank, 0, 'L', 1, 1, '', '', true, 0, false, true, 100, 'T');
 
             $pdf->MultiCell(100, 6, '', 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
-            $pdf->MultiCell(25, 6, date('d.m.Y', strtotime($invoice->date)), 0, 'L', 1, 1, '', '', true, 0, false, true, 100, 'T');
+
+            $dueDate = '-';
+            if(!empty($invoice->due_date))
+                $dueDate = date('d.m.Y', strtotime($invoice->due_date));
+
+            $pdf->MultiCell(25, 6, $dueDate, 0, 'L', 1, 1, '', '', true, 0, false, true, 100, 'T');
 
             $pdf->MultiCell(100, 6, '', 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');
             $pdf->MultiCell(25, 6, 'SWIFT', 0, 'L', 1, 0, '', '', true, 0, false, true, 100, 'T');

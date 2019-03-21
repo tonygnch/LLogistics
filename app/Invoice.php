@@ -12,7 +12,10 @@ class Invoice extends Model
 
     protected $fillable = [
         'date',
+        'due_date',
         'client',
+        'cmr',
+        'cmr_file',
         'place',
         'number',
         'deleted'

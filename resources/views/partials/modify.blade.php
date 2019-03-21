@@ -53,7 +53,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa {{ $icon }}"></i>
                                         </span>
-                                        <input placeholder="{{ $label }}" type="{{ $input->type }}" name="{{ $input->name }}" value="{{ $data->{$input->name} }}" class="form-control" @if($input->required) required @endif>
+                                        <input placeholder="{{ $label }}" type="{{ $input->type }}" name="{{ $input->name }}" value="{{ $data->{$input->name} }}" @if(isset($input->number)) data-number="number" @endif class="form-control" @if($input->required) required @endif>
                                     </div>
                                 @elseif($input->type == 'select')
                                     <select class="form-control" data-plugin-multiselect name="{{ $input->name }}" @if($input->required) required @endif>
@@ -87,7 +87,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </span>
-                                        <input placeholder="{{ $label }}" type="text" name="{{ $input->name }}" data-datepicker="" value="{{ date('d M Y', strtotime($data->{$input->name})) }}" class="form-control">
+                                        <input placeholder="{{ $label }}" type="text" name="{{ $input->name }}" data-datepicker="" @if(!empty($data->{$input->name})) value="{{ date('d M Y', strtotime($data->{$input->name})) }}" @endif class="form-control">
                                     </div>
                                 @elseif($input->type == 'file')
                                     <div class="fileupload fileupload-new" data-provides="fileupload">

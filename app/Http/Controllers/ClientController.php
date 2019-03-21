@@ -131,6 +131,7 @@ class ClientController extends Controller
                 '€/kg' => (object) [
                     'name' => 'weight_cost',
                     'type' => 'text',
+                    'number' => 'number',
                     'weight_cost' => true,
                     'required' => true
                 ]
@@ -257,6 +258,7 @@ class ClientController extends Controller
                         'name' => 'weight_cost',
                         'type' => 'text',
                         'weight_cost' => true,
+                        'number' => 'number',
                         'value' => $client->weight_cost,
                         'required' => true
                     ]
