@@ -18,6 +18,7 @@ class Cost extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'price',
         'amount',
         'trip',
         'invoice',

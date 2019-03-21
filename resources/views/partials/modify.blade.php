@@ -120,12 +120,16 @@
                                     <div class="costItem" data-id="{{ $cost->id }}">
                                         <label class="costsSeparator col-sm-3 control-label" @if($loop->first) hidden @endif></label>
                                         <div class="col-md-2">
-                                            <label class="col-md-2 control-label">Amount</label>
-                                            <input placeholder="0" type="text" name="costs[{{ $cost->id }}][amount]" data-number="number" value="{{ $cost->amount }}" class="form-control" required>
+                                            <label class="col-md-2 control-label">Price</label>
+                                            <input placeholder="0" type="text" name="costs[{{ $cost->id }}][price]" data-number="number" value="{{ $cost->price }}" class="form-control" required>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label class="col-md-2 control-label">Description</label>
                                             <input placeholder="Input item description" type="text" name="costs[{{ $cost->id }}][description]" value="{{ $cost->description }}" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="col-md-2 control-label" style="padding-left: 0;">Amount</label>
+                                            <input placeholder="0" type="text" name="costs[{{ $cost->id }}][amount]" data-number="number" value="{{ $cost->amount }}" class="form-control" required>
                                         </div>
                                         <div class="col-md-1">
                                             {{--<label class="col-md-2 control-label">&nbsp;</label>--}}
@@ -148,12 +152,16 @@
             <div class="costItem" data-id="costsID">
                 <label class="costsSeparator col-sm-3 control-label" hidden></label>
                 <div class="col-md-2">
-                    <label class="col-md-2 control-label">Amount</label>
-                    <input placeholder="0" type="text" name="newCosts[costsID][amount]" data-number="number" class="form-control" required>
+                    <label class="col-md-2 control-label">Price</label>
+                    <input placeholder="0" type="text" name="newCosts[costsID][price]" data-number="number" class="form-control" required>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="col-md-2 control-label">Description</label>
                     <input placeholder="Input item description" type="text" name="newCosts[costsID][description]" class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="col-md-2 control-label">Amount</label>
+                    <input placeholder="0" type="text" name="newCosts[costsID][amount]" data-number="number" value="1" class="form-control" required>
                 </div>
                 <div class="col-md-1">
                     {{--<label class="col-md-2 control-label">&nbsp;</label>--}}
