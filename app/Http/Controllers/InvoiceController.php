@@ -321,7 +321,7 @@ class InvoiceController extends Controller
                     $tripCosts = Cost::all()->where('trip', '=', $trip->id)->where('deleted', '=', 0);
                     $totalTripCosts = 0;
                     foreach($tripCosts as $tripCost)
-                        $totalTripCosts += $tripCost->amount;
+                        $totalTripCosts += $tripCost->price;
                     $trip->offsetSet('costs', $totalTripCosts);
                     $trips[] = $trip;
                 }
@@ -477,11 +477,11 @@ class InvoiceController extends Controller
                           <td width="35.5" height="50" align="center">' . $count . '</td>
                           <td width="318.8">' . $invoiceCost->description . '</td>
                           <td width="35.5" align="center">' . '-' . '</td>
-                          <td width="70.8" align="center">1</td>
-                          <td width="88.6" align="center">' . number_format($invoiceCost->amount, 2, '.', '') . '</td>
-                          <td width="88.6" align="center">' . number_format($invoiceCost->amount, 2, '.', '') . '</td>
+                          <td width="70.8" align="center">' . $invoiceCost->amount . '</td>
+                          <td width="88.6" align="center">' . number_format($invoiceCost->price, 2, '.', '') . '</td>
+                          <td width="88.6" align="center">' . number_format($invoiceCost->price * $invoiceCost->amount, 2, '.', '') . '</td>
                         </tr>';
-                $total += $invoiceCost->amount;
+                $total += $invoiceCost->price * $invoiceCost->amount;
                 $count++;
             }
 
