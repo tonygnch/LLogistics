@@ -103,6 +103,7 @@ class TripController extends Controller
                 'Weight' => (object) [
                     'name' => 'weight',
                     'type' => 'text',
+                    'number' => 'number',
                     'weight' => true,
                     'required' => true
                 ],
@@ -246,6 +247,7 @@ class TripController extends Controller
                     'Weight' => (object) [
                         'name' => 'weight',
                         'type' => 'text',
+                        'number' => 'number',
                         'weight' => true,
                         'required' => true
                     ],
