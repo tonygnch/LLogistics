@@ -102,7 +102,7 @@ class ClientController extends Controller
                     'required' => false
                 ],
 
-                'VAT' => (object) [
+                'CF' => (object) [
                     'name' => 'vat',
                     'type' => 'text',
                     'vat' => true,
@@ -226,7 +226,7 @@ class ClientController extends Controller
                         'required' => false
                     ],
 
-                    'VAT' => (object) [
+                    'CF' => (object) [
                         'name' => 'vat',
                         'type' => 'text',
                         'vat' => true,
