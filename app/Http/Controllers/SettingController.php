@@ -24,13 +24,12 @@ class SettingController extends Controller
                 if(!empty($setting)) {
                     $setting->value = $values['value'];
                     $setting->save();
+                    $this->activityLog::addModifyActivityLog('Modify settings', $this->user->id);
                 }
             }
         }
 
         $data = Setting::all();
-
-        $this->activityLog::addModifyActivityLog('Modify settings', $this->user->id);
 
         return view($this->viewPath . 'index', [
             'title' => 'All Settings',
