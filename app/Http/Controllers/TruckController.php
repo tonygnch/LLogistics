@@ -55,6 +55,8 @@ class TruckController extends Controller
             $truck->save();
             Trailer::takeTrailer($data['trailer']);
 
+            $this->activityLog::addAddActivityLog('Add truck "' . $data['plate'] . '"', $this->user->id);
+
             return redirect(route('trucks'));
         } else {
             $trailers = $this->getTrailersAsObject();
@@ -124,6 +126,8 @@ class TruckController extends Controller
 
             $truck->update($data);
 
+            $this->activityLog::addModifyActivityLog('Modify truck "' . $data['plate'] . '"', $this->user->id);
+
             return redirect(route('trucks'));
         } else {
             if(!empty($truck)){
@@ -188,6 +192,7 @@ class TruckController extends Controller
         $truck = Truck::find($id);
         if(!empty($truck)) {
             $truck->delete();
+            $this->activityLog::addDeleteActivityLog('Add truck "' . $truck->plate . '"', $this->user->id);
         }
 
         return redirect(route('trucks'));

@@ -49,6 +49,8 @@ class TrailerController extends Controller
 
             $trailer->save();
 
+            $this->activityLog::addAddActivityLog('Add trailer "' . $data['plate'] . '"', $this->user->id);
+
             return redirect(route('trailers'));
         } else {
             $makes = $this->getTrailerMakesAsObject();
@@ -100,6 +102,8 @@ class TrailerController extends Controller
             unset($data['multiselect']);
 
             $trailer->update($data);
+
+            $this->activityLog::addModifyActivityLog('Modify trailer "' . $data['plate'] . '"', $this->user->id);
 
             return redirect(route('trailers'));
         } else {
@@ -155,6 +159,7 @@ class TrailerController extends Controller
         $trailer = Trailer::find($id);
         if(!empty($trailer)) {
             $trailer->delete();
+            $this->activityLog::addDeleteActivityLog('Delete trailer "' . $trailer->plate . '"', $this->user->id);
         }
 
         return redirect(route('trailers'));

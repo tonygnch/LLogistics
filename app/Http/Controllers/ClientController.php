@@ -49,6 +49,8 @@ class ClientController extends Controller
 
             $client->save();
 
+            $this->activityLog::addAddActivityLog('Add client "' . $data['name'] . '"', $this->user->id);
+
             return redirect(route('clients'));
         } else {
 
@@ -79,7 +81,7 @@ class ClientController extends Controller
                     'required' => false
                 ],
 
-                'CF' => (object) [
+                'C.A.P' => (object) [
                     'name' => 'cf',
                     'type' => 'text',
                     'cf' => true,
@@ -163,6 +165,8 @@ class ClientController extends Controller
 
             $client->update($data);
 
+            $this->activityLog::addModifyActivityLog('Modify client "' . $data['name'] . '"', $this->user->id);
+
             return redirect(route('clients'));
         } else {
             if(!empty($client)){
@@ -198,7 +202,7 @@ class ClientController extends Controller
                         'required' => false
                     ],
 
-                    'CF' => (object) [
+                    'C.A.P.' => (object) [
                         'name' => 'cf',
                         'type' => 'text',
                         'cf' => true,
@@ -288,6 +292,7 @@ class ClientController extends Controller
         $client = Client::find($id);
         if(!empty($client)) {
             $client->delete();
+            $this->activityLog::addDeleteActivityLog('Delete client "' . $client->name . '"', $this->user->id);
         }
 
         return redirect(route('clients'));

@@ -16,7 +16,7 @@
                         <div class="form-group mb-lg">
                             <label>Username</label>
                             <div class="input-group input-group-icon">
-                                <input name="username" type="text" class="form-control input-lg" required/>
+                                <input name="credential" type="text" class="form-control input-lg" required/>
                                 <span class="input-group-addon">
 										<span class="icon icon-lg">
 											<i class="fa fa-user"></i>
@@ -28,10 +28,9 @@
                         <div class="form-group mb-lg">
                             <div class="clearfix">
                                 <label class="pull-left">Password</label>
-                                <a href="pages-recover-password.html" class="pull-right">Lost Password?</a>
                             </div>
                             <div class="input-group input-group-icon">
-                                <input name="pwd" type="password" class="form-control input-lg" required/>
+                                <input name="password" type="password" class="form-control input-lg" required/>
                                 <span class="input-group-addon">
 										<span class="icon icon-lg">
 											<i class="fa fa-lock"></i>
@@ -41,24 +40,11 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-8">
-                                <div class="checkbox-custom checkbox-default">
-                                    <input id="RememberMe" name="rememberme" type="checkbox"/>
-                                    <label for="RememberMe">Remember Me</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 text-right">
+                            <div class="col-sm-12 text-center">
                                 <button type="submit" class="btn btn-primary hidden-xs">Sign In</button>
                                 <button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Sign In</button>
                             </div>
                         </div>
-
-                        <span class="mt-lg mb-lg line-thru text-center text-uppercase">
-								<span>-</span>
-							</span>
-
-                        <p class="text-center"> <a href="pages-signup.html">Register</a>
-
                     </form>
                 </div>
             </div>

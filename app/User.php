@@ -8,23 +8,39 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    protected $table = 'admin';
+    protected $table = 'user';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'name',
+        'username',
+        'first_name',
+        'last_name',
         'email',
+        'profile_picture',
+        'role',
         'password',
+        'reset_hash'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function setResetHash($email) {
+        $this->reset_hash = md5($email);
+    }
+
+    public function role() {
+        return Role::find($this->role);
+    }
+
+    public function setPassword($password) {
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    public function resetResetHash() {
+        $this->reset_hash = null;
+    }
+
+    public function delete() {
+        $this->deleted = 1;
+        $this->save();
+    }
 }

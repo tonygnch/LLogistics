@@ -55,6 +55,8 @@ class DriverController extends Controller
             $driver->save();
             Truck::takeTruck($data['truck']);
 
+            $this->activityLog::addAddActivityLog('Add driver "' . $data['name'] . ' ' . $data['surname'] . '"', $this->user->id);
+
             return redirect(route('drivers'));
         } else {
             $trucks = $this->getTrucksAsObject();
@@ -115,6 +117,8 @@ class DriverController extends Controller
 
             $driver->update($data);
 
+            $this->activityLog::addModifyActivityLog('Modify driver "' . $data['name'] . ' ' . $data['surname'] . '"', $this->user->id);
+
             return redirect(route('drivers'));
         } else {
             if(!empty($driver)){
@@ -166,6 +170,7 @@ class DriverController extends Controller
         $driver = Driver::find($id);
         if(!empty($driver)) {
             $driver->delete();
+            $this->activityLog::addDeleteActivityLog('Delete driver "' . $driver->name . ' ' . $driver->surname . '"', $this->user->id);
         }
 
         return redirect(route('drivers'));

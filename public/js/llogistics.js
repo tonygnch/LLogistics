@@ -25,7 +25,7 @@ $(document).ready(function() {
         $.get('/ajaxGetClientTrips/' + $('select[name="client"]').val(), function (response) {
             var selects = '';
             $.each(response, function () {
-                selects += '<option value="' + this.id + '">' + this.client + ' | ' + this.route + '</option>'
+                selects += '<option value="' + this.id + '">' + this.client + ' | ' + this.route + ' | ' + this.departed + '</option>'
             });
 
             $('select[name="trips[]"]').html(selects);
@@ -100,4 +100,6 @@ $(document).ready(function() {
     $('select[name="client"]').change(function () {
         loadClientTrips()
     });
+
+    new ClipboardJS('.clipboard-btn');
 });

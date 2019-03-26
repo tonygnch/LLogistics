@@ -28,6 +28,8 @@ class CompanyController extends Controller
                 }
                 $company->save();
             }
+
+            $this->activityLog::addModifyActivityLog('Modify company information', $this->user->id);
         }
 
         $inputs = [

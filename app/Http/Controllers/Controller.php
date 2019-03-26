@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\ActivityLog;
 use App\Client;
 use App\Cost;
 use App\Driver;
+use App\Http\Auth\Authentication;
 use App\InvoiceTrip;
+use App\Role;
 use App\Setting;
 use App\Trailer;
 use App\Trip;
 use App\Truck;
+use App\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
@@ -22,24 +27,32 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public $constants;
+    public $activityLog;
+    public $user;
 
     public function __construct()
     {
-        $oneWeekAgo = date("Y-m-d", strtotime( "previous monday" ));
+        $auth = new Authentication();
 
+        $oneWeekAgoDate = date("Y-m-d", strtotime( "previous monday"));
+
+        $this->user = $auth->getLoggedUser();
         $this->constants = $this->getConstants();
+        $this->activityLog = new ActivityLog();
+
         $this->defineSettings();
         $driversCount = Driver::all()->where('deleted', '=', 0)->count();
         $clientsCount = Client::all()->where('deleted', '=', 0)->count();
-        $tripsCount = Trip::all()->where('departed', '>', $oneWeekAgo)->where('deleted', '=', 0)->count();
+        $tripsCount = Trip::all()->where('departed', '>', $oneWeekAgoDate)->where('deleted', '=', 0)->count();
 
-        $homeTrips = Trip::all()->where('departed', '>', $oneWeekAgo)->where('deleted', '=', 0);
+        $homeTrips = Trip::all()->where('departed', '>', $oneWeekAgoDate)->where('deleted', '=', 0);
 
         View::share('menus', json_decode(json_encode($this->constants['menus']), FALSE));
         View::share('driversCount', $driversCount);
         View::share('clientsCount', $clientsCount);
         View::share('tripsCount', $tripsCount);
         View::share('homeTrips', $homeTrips);
+        View::share('user', $this->user);
     }
 
     public function getConstants() {
@@ -171,9 +184,24 @@ class Controller extends BaseController
         $tripsArr = [];
         foreach($trips as $key => $trip) {
             $tripsArr[$key]['value'] = $trip->id;
-            $tripsArr[$key]['option'] = $trip->client()->name . ' | ' . $trip->start_point . ' - ' . $trip->end_point;
+            $tripsArr[$key]['option'] = $trip->client()->name . ' | ' . $trip->start_point . ' - ' . $trip->end_point . ' | ' . date('d M Y', strtotime($trip->departed));
         }
         return json_decode(json_encode($tripsArr));
+    }
+
+    /**
+     * Get all roles as object
+     * @return mixed
+     */
+    public function getRolesAsObject(){
+        $roles = Role::all();
+        $rolesArr = [];
+        foreach($roles as $key => $role) {
+            $rolesArr[$key]['value'] = $role->id;
+            $rolesArr[$key]['option'] = $role->title;
+        }
+
+        return json_decode(json_encode($rolesArr));
     }
 
     /**

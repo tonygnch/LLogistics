@@ -9,10 +9,8 @@
 namespace App\Http\Controllers;
 
 use App\Cost;
-use App\Driver;
 use App\Trip;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class TripController extends Controller
 {
@@ -63,6 +61,7 @@ class TripController extends Controller
                 }
             }
 
+            $this->activityLog::addAddActivityLog('Add trip "' . $data['description'] . '"', $this->user->id);
 
             return redirect(route('trips'));
         } else {
@@ -207,6 +206,8 @@ class TripController extends Controller
                 }
             }
 
+            $this->activityLog::addModifyActivityLog('Modify trip "' . $data['description'] . '"', $this->user->id);
+
             return redirect(route('trips'));
         } else {
             if(!empty($trip)){
@@ -320,6 +321,7 @@ class TripController extends Controller
         $trip = Trip::find($id);
         if(!empty($trip)) {
             $trip->delete();
+            $this->activityLog::addAddActivityLog('Delete trip "' . $trip->description . '"', $this->user->id);
         }
 
         return redirect(route('trips'));

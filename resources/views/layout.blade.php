@@ -107,4 +107,5 @@
     {{--<script src="/assets/javascripts/dashboard/examples.dashboard.js"></script>--}}
 
     <script src="/js/llogistics.js"></script>
+    <script src="/js/plugins/clipboard/clipboard.min.js"></script>
 </html>

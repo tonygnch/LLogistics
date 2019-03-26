@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'logged'], function () {
     Route::get('/welcome', function () {
         return view('welcome');
-    })->middleware('auth');
+    });
 
     Route::get('/ajaxGetLastId/{table}', 'Common\AjaxController@getTableLastId');
 
@@ -194,6 +194,37 @@ use Illuminate\Support\Facades\Route;
     ]);
 
     /**
+     * Users
+     */
+
+    Route::get('users',[
+        'as' => 'users',
+        'uses' => 'UserController@index'
+    ]);
+
+    Route::get('users/add',[
+        'as' => 'addUser',
+        'uses' => 'UserController@add'
+    ]);
+    Route::post('users/add', 'UserController@add');
+
+    Route::get('users/modify/{id}',[
+        'as' => 'modifyUser',
+        'uses' => 'UserController@modify'
+    ]);
+    Route::post('users/modify/{id}', 'UserController@modify');
+
+    Route::get('users/delete/{id}',[
+        'as' => 'deleteUser',
+        'uses' => 'UserController@delete'
+    ]);
+
+    Route::get('users/reset/{id}', [
+        'as' => 'resetUser',
+        'uses' => 'UserController@reset'
+    ]);
+
+    /**
      * Cost
      */
 
@@ -220,28 +251,28 @@ use Illuminate\Support\Facades\Route;
         'uses' => 'CompanyController@index'
     ]);
     Route::post('/company', 'CompanyController@index');
-//})->middleware('auth');
+});
 
 /**
  * Login Stuff
  */
 
-//Login
-Route::get('login', [
-    'as' => 'login',
-    'uses' => 'Auth\LoginController@login'
-]);
-Route::post('login', 'Auth\LoginController@login');
-
-//Logout
 Route::get('logout', [
     'as' => 'logout',
     'uses' => 'Auth\LoginController@logout'
 ]);
 
-// Sign up
-Route::get('signup', [
-    'as' => 'signup',
-    'uses' => 'Auth\RegisterController@signUp'
-]);
-Route::post('signup', 'Auth\RegisterController@signUp');
+Route::group(['middleware' => 'notLogged'], function () {
+    //Login
+    Route::get('login', [
+        'as' => 'login',
+        'uses' => 'Auth\LoginController@login'
+    ]);
+    Route::post('login', 'Auth\LoginController@login');
+
+    Route::get('reset-password/{hash}', [
+        'as' => 'resetUserPassword',
+        'uses' => 'Auth\LoginController@resetPassword'
+    ]);
+    Route::post('reset-password/{hash}', 'Auth\LoginController@resetPassword');
+});

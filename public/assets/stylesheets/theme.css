@@ -14,7 +14,7 @@ body {
 	font-family: "Open Sans", Arial, sans-serif;
 	line-height: 22px;
 	margin: 0;
-	font-size: 13px;
+	font-size: 15px !important;
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
@@ -2347,8 +2347,8 @@ ul.nav-main > li.nav-expanded > a {
 }
 
 ul.nav-main li a {
-	font-size: 13px;
-	font-size: 1.3rem;
+	/*font-size: 13px;*/
+	/*font-size: 1.3rem;*/
 	color: #abb4be;
 	white-space: nowrap;
 	text-overflow: ellipsis;

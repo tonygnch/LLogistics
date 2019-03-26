@@ -30,6 +30,8 @@ class SettingController extends Controller
 
         $data = Setting::all();
 
+        $this->activityLog::addModifyActivityLog('Modify settings', $this->user->id);
+
         return view($this->viewPath . 'index', [
             'title' => 'All Settings',
             'description' => 'Showing all settings',

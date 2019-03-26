@@ -109,13 +109,32 @@ return [
             ]
         ],
 
+        'users' => [
+            'admin' => true,
+            'title' => 'Users',
+            'icon' => 'fa-users-cog',
+            'route' => 'users',
+            'submenus' => [
+                'all' => [
+                    'title' => 'All Users',
+                    'route' => 'users'
+                ],
+                'add' => [
+                    'title' => 'New User',
+                    'route' => 'addUser'
+                ]
+            ]
+        ],
+
         'company' => [
+            'admin' => true,
             'title' => 'Company',
             'icon' => 'fa-building',
             'route' => 'company'
         ],
 
         'settings' => [
+            'admin' => true,
             'title' => 'Settings',
             'icon' => 'fa-cogs',
             'route' => 'settings'

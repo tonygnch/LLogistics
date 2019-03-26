@@ -75,6 +75,8 @@ class InvoiceController extends Controller
                 }
             }
 
+            $this->activityLog::addAddActivityLog('Add invoice "' . $data['number'] . '"', $this->user->id);
+
             return redirect(route('invoices'));
         } else {
             $clients = $this->getClientsAsObject();
@@ -207,6 +209,8 @@ class InvoiceController extends Controller
                 }
             }
 
+            $this->activityLog::addModifyActivityLog('Modify invoice "' . $data['number'] . '"', $this->user->id);
+
             return redirect(route('invoices'));
         } else {
             if (!empty($invoice)) {
@@ -298,6 +302,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         if (!empty($invoice)) {
             $invoice->delete();
+            $this->activityLog::addDeleteActivityLog('Delete invoice "' . $invoice->number . '"', $this->user->id);
         }
 
         return redirect(route('invoices'));
@@ -401,8 +406,11 @@ class InvoiceController extends Controller
             // write client data
             $pdf->MultiCell(70, 50, $clientData, 1, 'L', 1, 0, '', '', true, 0, false, true, 50, 'M');
 
+
+            $invoiceNumber = $invoice->number;
+
             $invoiceData =
-                '№ ' . $invoice->number
+                '№ ' . substr('0000000', strlen((string)$invoiceNumber)) . $invoiceNumber
                 . "\n" .
                 'Дата / Data : ' . date('d.m.Y', strtotime($invoice->date))
                 . "\n" .
@@ -442,8 +450,8 @@ class InvoiceController extends Controller
                         'Description of the goods(service)/groundsfor notice issuing';
 
             //Costs titles
-            $pdf->Cell(10, 15, '№', 1, 0, 'C');
-            $pdf->MultiCell(90, 15, $costTitle, 1, 'C', 1, 0, '', '', true, 0, false, true, 15, 'M');
+            $pdf->Cell(17, 15, '№', 1, 0, 'C');
+            $pdf->MultiCell(83, 15, $costTitle, 1, 'C', 1, 0, '', '', true, 0, false, true, 15, 'M');
             $pdf->Cell(10, 15, 'CMR', 1, 0, 'C');
             $pdf->MultiCell(20, 15, 'Количество' . "\n" .'Quantity', 1, 'C', 1, 0, '', '', true, 0, false, true, 15, 'M');
             $pdf->MultiCell(25, 15, 'Единична цена' . "\n" .'Unit Price', 1, 'C', 1, 0, '', '', true, 0, false, true, 15, 'M');
@@ -454,28 +462,27 @@ class InvoiceController extends Controller
             //Costs
 
             $itemsHtml = '';
-            $count = 1;
             $total = 0;
             foreach($trips as $trip) {
                 $tripCost = $trip->weight * $client->weight_cost + $trip->costs;
                 $itemsHtml .= '
                         <tr>
-                          <td width="35.5" height="50" align="center">' . $count . '</td>
-                          <td width="318.8">' . $trip->description . '</td>
+                          <td width="60.2" height="50" align="center">' . date('d.m.Y', strtotime($trip->departed)) . '</td>
+                          <td width="294.1">' . $trip->description . '</td>
                           <td width="35.5" align="center">' . $invoice->cmr . '</td>
                           <td width="70.8" align="center">1</td>
                           <td width="88.6" align="center">' . number_format($tripCost, 2, '.', '') . '</td>
                           <td width="88.6" align="center">' . number_format($tripCost, 2, '.', '') . '</td>
                         </tr>';
                 $total += $tripCost;
-                $count++;
             }
 
+            $count = 1;
             foreach($invoiceCosts as $invoiceCost) {
                 $itemsHtml .= '
                         <tr>
-                          <td width="35.5" height="50" align="center">' . $count . '</td>
-                          <td width="318.8">' . $invoiceCost->description . '</td>
+                          <td width="60.2" height="50" align="center">' . $count . '</td>
+                          <td width="294.1">' . $invoiceCost->description . '</td>
                           <td width="35.5" align="center">' . '-' . '</td>
                           <td width="70.8" align="center">' . $invoiceCost->amount . '</td>
                           <td width="88.6" align="center">' . number_format($invoiceCost->price, 2, '.', '') . '</td>
@@ -503,8 +510,8 @@ class InvoiceController extends Controller
 
             $pdf->SetFont('freesans', 'B', 10);
 
-            $pdf->Cell(155, 0, 'Място на сделката / Place of transaction', 1, 0, 'L');
-            $pdf->Cell(25, 0, $invoice->place, 1, 1, 'C');
+            $pdf->Cell(155, 0, '', 1, 0, 'L');
+            $pdf->Cell(25, 0, '', 1, 1, 'C');
 
             $pdf->SetFont('freesans', 'B, I', 10);
 

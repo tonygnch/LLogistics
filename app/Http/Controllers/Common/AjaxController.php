@@ -62,7 +62,7 @@ class AjaxController extends Controller
     /**
      * Get client trips
      * @param int $client
-     * @return string
+     * @return array
      */
     public function getClientTrips($client) {
         $client = Client::find($client);
@@ -70,11 +70,11 @@ class AjaxController extends Controller
         $tripsArr = array();
         if(!empty($trips) and !empty($client)){
             foreach($trips as $trip) {
-                error_log($trips);
                 $tripsArr[$trip->id] = [
                     'id' => $trip->id,
                     'client' => $client->name,
-                    'route' => $trip->start_point . ' - ' . $trip->end_point
+                    'route' => $trip->start_point . ' - ' . $trip->end_point,
+                    'departed' => date('d M Y', strtotime($trip->departed))
                 ];
             }
         }
