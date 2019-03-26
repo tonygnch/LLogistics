@@ -13,7 +13,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
-                                @if($d->phone)<th>Phone</th>@endif
+                                <th>Phone</th>
                                 <th>Address</th>
                                 <th>CF</th>
                                 <th>Actions</th>
@@ -24,7 +24,7 @@
                                 <tr>
                                     <td>{{ $d->name }}</td>
                                     <td>{{ $d->email }}</td>
-                                    @if($d->phone)<td>{{ $d->phone }}</td>@endif
+                                    <td>{{ $d->phone }}</td>
                                     <td>{{ $d->address }} {{ $d->cf }} {{ $d->city }} {{ $d->country }}</td>
                                     <td>{{ $d->vat }}</td>
                                     <td class="actions">
