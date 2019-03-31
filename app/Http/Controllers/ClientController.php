@@ -53,6 +53,7 @@ class ClientController extends Controller
 
             return redirect(route('clients'));
         } else {
+            $currencies = $this->getCurrenciesAsObject();
 
             $inputs = [
                 'Name' => (object) [
@@ -136,6 +137,14 @@ class ClientController extends Controller
                     'number' => 'number',
                     'weight_cost' => true,
                     'required' => true
+                ],
+
+                'Currency' => (object) [
+                    'name' => 'currency',
+                    'type' => 'select',
+                    'values' => $currencies,
+                    'currency' => true,
+                    'required' => true
                 ]
             ];
 
@@ -170,6 +179,7 @@ class ClientController extends Controller
             return redirect(route('clients'));
         } else {
             if(!empty($client)){
+                $currencies = $this->getCurrenciesAsObject();
 
                 $inputs = [
                     'Name' => (object) [
@@ -264,6 +274,13 @@ class ClientController extends Controller
                         'weight_cost' => true,
                         'number' => 'number',
                         'value' => $client->weight_cost,
+                        'required' => true
+                    ],
+                    'Currency' => (object) [
+                        'name' => 'currency',
+                        'type' => 'select',
+                        'values' => $currencies,
+                        'currency' => true,
                         'required' => true
                     ]
                 ];

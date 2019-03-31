@@ -42,10 +42,7 @@ class Authentication
      */
     public function attempt($credential, $password)
     {
-        $user = User::all()->where('email', '=', $credential)->first();
-        if(empty($user)) {
-            $user = User::all()->where('username', '=', $credential)->first();
-        }
+        $user = User::all()->where('username', '=', $credential)->first();
 
         if(empty($user))
             return false;

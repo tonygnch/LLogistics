@@ -12,6 +12,11 @@ return [
         ]
     ],
 
+    'currencies' => [
+        '0' => 'EUR / €',
+        '1' => 'BGN / LEV'
+    ],
+
     'menus' => [
         'trucks' => [
             'title' => 'Trucks',

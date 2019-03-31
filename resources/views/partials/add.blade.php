@@ -55,12 +55,22 @@
                                         <input placeholder="{{ $label }}" type="{{ $input->type }}" name="{{ $input->name }}" class="form-control" @if(isset($input->value)) value="{{ $input->value }}" @endif @if(isset($input->number)) data-number="number" @endif @if($input->required) required @endif>
                                     </div>
                                 @elseif($input->type == 'select')
-                                    <select class="form-control" data-plugin-multiselect name="{{ $input->name }}" @if($input->required) required @endif>
-                                        @if(isset($input->default)) <option value="0" selected>{{ $input->default }}</option>@endif
-                                        @foreach($input->values as $value)
-                                            <option value="{{ $value->value }}">{{ $value->option }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="input-group btn-group">
+                                        <?php
+                                            $icon = 'fa-hand-pointer';
+                                            if(isset($input->currency) and $input->currency)
+                                                $icon = 'fa-coins';
+                                        ?>
+                                        <span class="input-group-addon">
+                                            <i class="fa {{ $icon }}"></i>
+                                        </span>
+                                        <select class="form-control" data-plugin-multiselect name="{{ $input->name }}" @if($input->required) required @endif>
+                                            @if(isset($input->default)) <option value="0" selected>{{ $input->default }}</option>@endif
+                                            @foreach($input->values as $value)
+                                                <option value="{{ $value->value }}">{{ $value->option }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 @elseif($input->type == 'multipleSelect')
                                     <div class="input-group btn-group">
                                         <span class="input-group-addon">

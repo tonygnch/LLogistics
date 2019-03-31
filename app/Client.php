@@ -23,6 +23,7 @@ class Client extends Model
         'swift',
         'bank',
         'weight_cost',
+        'currency',
         'deleted'
     ];
 

@@ -205,6 +205,19 @@ class Controller extends BaseController
     }
 
     /**
+     * Get currencies as object
+     * @return string
+     */
+    public function getCurrenciesAsObject(){
+        $currencies = [];
+        foreach ($this->constants['currencies'] as $key => $currency) {
+            $currencies[$key]['value'] = $key;
+            $currencies[$key]['option'] = $currency;
+        }
+        return json_decode(json_encode($currencies));
+    }
+
+    /**
      * Create new cost
      * @param array $attributes
      * return void
