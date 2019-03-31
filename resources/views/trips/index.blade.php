@@ -21,6 +21,7 @@
                                 <th>Start Point</th>
                                 <th>End Point</th>
                                 <th>Distance</th>
+                                <th>Invoiced</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -37,6 +38,7 @@
                                     <td>{{ $d->start_point }}</td>
                                     <td>{{ $d->end_point }}</td>
                                     <td>{{ $d->distance }}</td>
+                                    <td class="text-center"><i class="fa @if($d->invoiced) fa-check @else fa-times @endif"></i></td>
                                     <td class="actions">
                                         <a href="{{ route('modifyTrip', $d->id) }}"><i class="fa fa-pencil-alt fa-2x" style="color: orange;"></i></a>
                                         <a href="{{ route('deleteTrip', $d->id) }}" class="delete-row"><i class="fa fa-trash-alt fa-2x" style="color: #ed180e;"></i></a>

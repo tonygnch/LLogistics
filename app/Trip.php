@@ -22,6 +22,7 @@ class Trip extends Model
         'start_point',
         'end_point',
         'distance',
+        'invoiced',
         'deleted'
     ];
 
@@ -79,6 +80,11 @@ class Trip extends Model
      */
     public function delete(){
         $this->deleted = 1;
+        $this->save();
+    }
+
+    public function invoice(){
+        $this->invoiced = 1;
         $this->save();
     }
 }

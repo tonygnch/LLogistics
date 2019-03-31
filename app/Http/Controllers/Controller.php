@@ -232,6 +232,10 @@ class Controller extends BaseController
         $invoiceTrip->trip = $trip;
 
         $invoiceTrip->save();
+
+        /** @var Trip $trip */
+        $trip = Trip::find($trip);
+        $trip->invoice();
     }
 
     /**

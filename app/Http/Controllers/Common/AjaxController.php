@@ -66,7 +66,7 @@ class AjaxController extends Controller
      */
     public function getClientTrips($client) {
         $client = Client::find($client);
-        $trips = Trip::all()->where('client', '=', $client->id)->where('deleted', '=', 0);
+        $trips = Trip::all()->where('client', '=', $client->id)->where('deleted', '=', 0)->where('invoiced', '=', 0);
         $tripsArr = array();
         if(!empty($trips) and !empty($client)){
             foreach($trips as $trip) {
