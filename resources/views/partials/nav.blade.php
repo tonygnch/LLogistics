@@ -23,24 +23,54 @@
                         </a>
                     </li>
                     @foreach($menus as $menu)
-                        <li class="@if(isset($menu->submenus)) nav-parent @endif @if(substr($actualLink, 0, strlen(route($menu->route))) == route($menu->route))) nav-expanded nav-active @endif">
-                            <a @if(!isset($menu->submenus)) href="{{ route($menu->route) }}" @endif>
-                                <i class="fa {{ $menu->icon }}" aria-hidden="true"></i>
-                                <span>{{ $menu->title }}</span>
-                            </a>
-                            @if(isset($menu->submenus))
-                                <ul class="nav nav-children">
-                                @foreach($menu->submenus as $submenu)
-                                    <li class="@if(route($submenu->route) == $actualLink)) nav-active @endif">
-                                        <a href="{{ route($submenu->route) }}">
-                                            {{ $submenu->title }}
-                                        </a>
-                                    </li>
-                                @endforeach
-                                </ul>
-                            @endif
-                        </li>
+                        @if(!isset($menu->admin))
+                            <li class="@if(isset($menu->submenus)) nav-parent @endif @if(substr($actualLink, 0, strlen(route($menu->route))) == route($menu->route))) nav-expanded nav-active @endif">
+                                <a @if(!isset($menu->submenus)) href="{{ route($menu->route) }}" @endif>
+                                    <i class="fa {{ $menu->icon }}" aria-hidden="true"></i>
+                                    <span>{{ $menu->title }}</span>
+                                </a>
+                                @if(isset($menu->submenus))
+                                    <ul class="nav nav-children">
+                                    @foreach($menu->submenus as $submenu)
+                                        <li class="@if(route($submenu->route) == $actualLink)) nav-active @endif">
+                                            <a href="{{ route($submenu->route) }}">
+                                                {{ $submenu->title }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endif
                     @endforeach
+                    <div class="sidebar-widget widget-stats" style="padding: 20px;">
+                        <div class="widget-header">
+                            <h6 style="color: white;">Admin</h6>
+                            {{--<div class="widget-toggle" style="color: #abb4be;">+</div>--}}
+                        </div>
+                    </div>
+                    @foreach($menus as $menu)
+                        @if(isset($menu->admin) and $user->role == 1)
+                            <li class="@if(isset($menu->submenus)) nav-parent @endif @if(substr($actualLink, 0, strlen(route($menu->route))) == route($menu->route))) nav-expanded nav-active @endif">
+                                <a @if(!isset($menu->submenus)) href="{{ route($menu->route) }}" @endif>
+                                    <i class="fa {{ $menu->icon }}" aria-hidden="true"></i>
+                                    <span>{{ $menu->title }}</span>
+                                </a>
+                                @if(isset($menu->submenus))
+                                    <ul class="nav nav-children">
+                                        @foreach($menu->submenus as $submenu)
+                                            <li class="@if(route($submenu->route) == $actualLink)) nav-active @endif">
+                                                <a href="{{ route($submenu->route) }}">
+                                                    {{ $submenu->title }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endif
+                    @endforeach
+                    </div>
                 </ul>
             </nav>
 
@@ -83,7 +113,7 @@
                     {{--</ul>--}}
                 {{--</div>--}}
             {{--</div>--}}
-        </div>
+        {{--</div>--}}
 
     </div>
 
