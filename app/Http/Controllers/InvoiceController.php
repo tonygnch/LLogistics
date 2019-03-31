@@ -529,7 +529,7 @@ class InvoiceController extends Controller
             $vatText = ($client->currency == 0) ? 'ДДС / VAT 0 %' : 'ДДС / VAT 20 %';
             $pdf->Cell(55, 5, $vatText, 1, 0, 'L');
             $pdf->SetFont('freesans', '', 10);
-            $vatValue = ($client->currency == 0) ? '' : number_format($total * VAT_VALUE, 2, '.', '');
+            $vatValue = ($client->currency == 0) ? '' : 'lev ' . number_format($total * VAT_VALUE, 2, '.', '');
             $pdf->Cell(25, 5, $vatValue, 1, 1, 'C');
 
             $pdf->Cell(100, 5, '', 0, 0, 'C', false, '', 0, false, 'T', 'T');
