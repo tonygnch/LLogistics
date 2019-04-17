@@ -22,15 +22,18 @@ $(document).ready(function() {
     };
 
     let loadClientTrips = function () {
-        $.get('/ajaxGetClientTrips/' + $('select[name="client"]').val(), function (response) {
-            var selects = '';
-            $.each(response, function () {
-                selects += '<option value="' + this.id + '">' + this.client + ' | ' + this.route + ' | ' + this.departed + '</option>'
-            });
+        let clientId = $('select[name="client"]').val();
+        if(clientId != undefined) {
+            $.get('/ajaxGetClientTrips/' + $('select[name="client"]').val(), function (response) {
+                var selects = '';
+                $.each(response, function () {
+                    selects += '<option value="' + this.id + '">' + this.client + ' | ' + this.route + ' | ' + this.departed + '</option>'
+                });
 
-            $('select[name="trips[]"]').html(selects);
-            $('select[name="trips[]"]').multiselect('destroy').multiselect();
-        })
+                $('select[name="trips[]"]').html(selects);
+                $('select[name="trips[]"]').multiselect('destroy').multiselect();
+            })
+        }
     };
 
     numberValue();
