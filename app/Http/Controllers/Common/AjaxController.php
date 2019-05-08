@@ -83,9 +83,9 @@ class AjaxController extends Controller
 
     public function getDistance($from, $to){
 //        return 'test';
-        $res = $this->callAPI('GET', 'https://www.distance24.org/route.json?stops=' . $from . '|' . $to);
-//        $res = json_decode($res);
-        return $res;
+        $res = $this->callAPI('GET', 'https://www.distance24.org/route.json?stops="' . $from . '|' . $to . '"');
+        $res = json_decode($res);
+        return $res->distance;
     }
 
     private function callAPI($method, $url, $data = false)
@@ -109,8 +109,8 @@ class AjaxController extends Controller
         }
 
         // Optional Authentication:
-//        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-//        curl_setopt($curl, CURLOPT_USERPWD, "username:password");
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($curl, CURLOPT_USERPWD, "username:password");
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
