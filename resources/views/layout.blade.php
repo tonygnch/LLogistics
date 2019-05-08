@@ -35,7 +35,7 @@
         <!-- Theme Custom CSS -->
         <link rel="stylesheet" href="/assets/stylesheets/theme-custom.css">
 
-        <link rel="stylesheet" href="/css/llogistics.css">
+        <link rel="stylesheet" href="/css/llogistics.css?v=2.0">
 
         <!-- Head Libs -->
         <script src="/assets/vendor/modernizr/modernizr.js"></script>
