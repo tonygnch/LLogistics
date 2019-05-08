@@ -29,6 +29,7 @@ Route::group(['middleware' => 'logged'], function () {
     Route::get('/ajaxGetDriverTruck/{driver}', 'Common\AjaxController@getDriverTruck');
     Route::get('/ajaxGetTruckTrailer/{truck}', 'Common\AjaxController@getTruckTrailer');
     Route::get('/ajaxGetClientTrips/{client}', 'Common\AjaxController@getClientTrips');
+    Route::get ('/ajaxGetDistance/{from}/{to}', 'Common\AjaxController@getDistance');
 
     /**
      * Trucks
