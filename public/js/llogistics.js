@@ -109,12 +109,13 @@ $(document).ready(function() {
         let startPoint = $('input[name="start_point"]');
         let currentFieldTitle = $(this).attr('placeholder');
         $.get('/ajaxGetDistance/' + startPoint.val() + '/' + endPoint.val(), function (response) {
-            if(response != 0) {
-                $('input[name="distance"]').val(response);
-            } else {
-                alert(currentFieldTitle + ' not found');
-                $('input[name="distance"]').val('');
-            }
+            console.log(response);
+            // if(response != 0) {
+            //     $('input[name="distance"]').val(response);
+            // } else {
+            //     alert(currentFieldTitle + ' not found');
+            //     $('input[name="distance"]').val('');
+            // }
         });
     });
 

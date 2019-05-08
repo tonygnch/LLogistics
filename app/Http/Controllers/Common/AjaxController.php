@@ -84,8 +84,8 @@ class AjaxController extends Controller
     public function getDistance($from, $to){
 //        return 'test';
         $res = $this->callAPI('GET', 'https://www.distance24.org/route.json?stops=' . $from . '|' . $to);
-        $res = json_decode($res);
-        return $res->distance;
+//        $res = json_decode($res);
+        return $res;
     }
 
     private function callAPI($method, $url, $data = false)
