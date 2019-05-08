@@ -35,7 +35,7 @@
         <!-- Theme Custom CSS -->
         <link rel="stylesheet" href="/assets/stylesheets/theme-custom.css">
 
-        <link rel="stylesheet" href="/css/llogistics.css?v=2.0">
+        <link rel="stylesheet" href="/css/llogistics.css">
 
         <!-- Head Libs -->
         <script src="/assets/vendor/modernizr/modernizr.js"></script>
@@ -102,9 +102,9 @@
     <script src="/assets/javascripts/theme.init.js"></script>
 
 
-    <!-- Examples -->
+{{--    <!-- Examples -->--}}
     {{--<script src="/assets/javascripts/dashboard/examples.dashboard.js"></script>--}}
 
-    <script src="/js/llogistics.js"></script>
+    <script src="/js/llogistics.js?v=2.0"></script>
     <script src="/js/plugins/clipboard/clipboard.min.js"></script>
 </html>
