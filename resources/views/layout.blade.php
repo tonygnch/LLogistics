@@ -105,7 +105,7 @@
 {{--    <!-- Examples -->--}}
     {{--<script src="/assets/javascripts/dashboard/examples.dashboard.js"></script>--}}
 
-    <script src="/js/llogistics.js?v=2.0"></script>
+    <script src="/js/llogistics.js?v=2.1"></script>
     <script src="/js/plugins/clipboard/clipboard.min.js"></script>
     <script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
 </html>
