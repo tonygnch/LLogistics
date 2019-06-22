@@ -14,6 +14,7 @@ class Driver extends Model
         'name',
         'surname',
         'truck',
+        'phone',
         'deleted'
     ];
 

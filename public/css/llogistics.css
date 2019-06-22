@@ -1,3 +1,7 @@
 .no-left-padding {
     padding-left: 0;
 }
+
+.swal2-popup {
+     font-size: unset !important;
+}

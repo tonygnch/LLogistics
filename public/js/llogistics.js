@@ -120,4 +120,20 @@ $(document).ready(function() {
     });
 
     new ClipboardJS('.clipboard-btn');
+
+    $('.send-directions').on('click', function () {
+        let url = $(this).data('url');
+
+        Swal.fire({
+            title: 'Sending directions',
+            type: 'info',
+        })
+
+        $.get(url, function () {
+            Swal.fire({
+                title: 'Directions sent',
+                type: 'success',
+            })
+        });
+    });
 });

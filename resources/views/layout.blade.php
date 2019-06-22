@@ -107,4 +107,5 @@
 
     <script src="/js/llogistics.js?v=2.0"></script>
     <script src="/js/plugins/clipboard/clipboard.min.js"></script>
+    <script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
 </html>

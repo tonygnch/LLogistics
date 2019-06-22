@@ -252,6 +252,23 @@ Route::group(['middleware' => 'logged'], function () {
         'uses' => 'CompanyController@index'
     ]);
     Route::post('/company', 'CompanyController@index');
+
+    Route::get('/sendDirections/{sp}/{ep}/{telegramid}', [
+        'as' => 'sendDirections',
+        'uses' => 'TripController@sendDirections'
+    ]);
+
+    Route::post('/855760832:AAFYUvoXpHQn14qo7GblaJ8ja_LVH5UVwno/webhook', function () {
+        $update = \Telegram\Bot\Laravel\Facades\Telegram::commandsHandler(true);
+
+        // Commands handler method returns an Update object.
+        // So you can further process $update object
+        // to however you want.
+
+        error_log('ok');
+
+        return 'ok';
+    });
 });
 
 /**

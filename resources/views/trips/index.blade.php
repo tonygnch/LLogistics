@@ -40,7 +40,13 @@
                                     <td>{{ $d->distance }}</td>
                                     <td class="text-center"><i class="fa @if($d->invoiced) fa-check @else fa-times @endif"></i></td>
                                     <td class="actions">
-                                        <a href="https://www.google.com/maps/dir/?api=1&origin={{ str_replace(' ', '+', $d->start_point) }}&destination={{ str_replace(' ', '+', $d->end_point) }}&travelmode=driving" target="_blank"><i class="fa fa-directions fa-2x" style="color: blue;"></i></a>
+                                        <?php
+                                            $sp = str_replace(' ', '+', $d->start_point);
+                                            $ep = str_replace(' ', '+', $d->end_point);
+                                            $directions = "https://www.google.com/maps/dir/?api=1&origin=" . $sp . "&destination=" . $ep . "&travelmode=driving";
+                                        ?>
+                                        <a href="#" class="send-directions" data-url="{{ route('sendDirections', ['sp' => $sp, 'ep' => $ep , 'telegramId' => 413990881]) }}"><i class="fab fa-telegram-plane fa-2x" style="color: deepskyblue;"></i></a>
+                                        <a href="{{ $directions }}" target="_blank"><i class="fa fa-directions fa-2x" style="color: blue;"></i></a>
                                         <a href="{{ route('modifyTrip', $d->id) }}"><i class="fa fa-pencil-alt fa-2x" style="color: orange;"></i></a>
                                         <a href="{{ route('deleteTrip', $d->id) }}" class="delete-row"><i class="fa fa-trash-alt fa-2x" style="color: #ed180e;"></i></a>
                                     </td>

@@ -61,6 +61,8 @@
                                         $icon = 'fa-hand-pointer';
                                         if(isset($input->currency) and $input->currency)
                                             $icon = 'fa-coins';
+                                        if(isset($input->truck) and $input->truck)
+                                            $icon = 'fa-truck';
                                         ?>
                                         <span class="input-group-addon">
                                             <i class="fa {{ $icon }}"></i>
@@ -83,7 +85,7 @@
                                                 <?php
                                                     $selected = '';
                                                     foreach($input->check as $c) {
-                                                        if($c->trip == $value->value) {
+                                                        if($c->trip == $c->value) {
                                                             $selected = 'selected';
                                                         }
                                                     }

@@ -74,11 +74,19 @@ class DriverController extends Controller
                     'required' => true
                 ],
 
+                'Phone' => (object) [
+                    'name' => 'phone',
+                    'type' => 'text',
+                    'phone' => true,
+                    'required' => false
+                ],
+
                 'Truck' => (object) [
                     'name' => 'truck',
                     'type' => 'select',
                     'default' => 'No Truck',
                     'values' => $trucks,
+                    'truck' => true,
                     'required' => false
                 ]
             ];
@@ -137,10 +145,18 @@ class DriverController extends Controller
                         'required' => true
                     ],
 
+                    'Phone' => (object) [
+                        'name' => 'phone',
+                        'type' => 'text',
+                        'phone' => true,
+                        'required' => false
+                    ],
+
                     'Truck' => (object) [
                         'name' => 'truck',
                         'type' => 'select',
                         'default' => 'No Truck',
+                        'truck' => true,
                         'values' => $trucks,
                         'required' => false
                     ]

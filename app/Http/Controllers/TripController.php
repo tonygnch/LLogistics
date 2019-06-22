@@ -11,6 +11,8 @@ namespace App\Http\Controllers;
 use App\Cost;
 use App\Trip;
 use Illuminate\Http\Request;
+use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram\Bot\TelegramClient;
 
 class TripController extends Controller
 {
@@ -27,6 +29,16 @@ class TripController extends Controller
             'title' => 'All Trips',
             'description' => 'Showing all trips',
             'data' => $data
+        ]);
+    }
+
+    public function sendDirections($sp, $ep, $telegramId){
+//        413990881
+
+        $directions = "https://www.google.com/maps/dir/?api=1&origin=" . $sp . "&destination=" . $ep . "&travelmode=driving";
+        Telegram::sendMessage([
+            'chat_id' => $telegramId,
+            'text' => $directions
         ]);
     }
 
